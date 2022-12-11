@@ -4,7 +4,7 @@ module Rollbar
   class Notification
     module Condition
       class Base
-        attr_reader :type
+        attr_reader :type, :operation, :value
 
         # @param operation [String]
         # @param value [String]
@@ -25,6 +25,14 @@ module Rollbar
               value     = "#{@value}"
             }
           TF
+        end
+
+        # @param other [Rollbar::Notification::Condition::Base]
+        def redundant_to?(other)
+          self.class == other.class &&
+            @operation == "neq" &&
+            other.operation == "eq" &&
+            @value != other.value
         end
       end
     end

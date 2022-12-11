@@ -13,6 +13,7 @@ RSpec.describe Rollbar::Notification do
       slack_title_conditions
       slack_path_conditions
       slack_multiple_conditions
+      slack_eq_conditions
     ].each do |name|
       context name do
         let(:yaml) { yaml_file(name) }

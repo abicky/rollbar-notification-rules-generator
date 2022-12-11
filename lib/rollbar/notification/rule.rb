@@ -38,6 +38,13 @@ module Rollbar
         super
       end
 
+      def remove_redundant_conditions!
+        @conditions.delete_if do |condition|
+          @conditions.any? { |other| condition.redundant_to?(other) }
+        end
+        self
+      end
+
       # @param old_condition [Rollbar::Notification::Condition::Base]
       # @param new_condition [Rollbar::Notification::Condition::Base]
       def replace_condition!(old_condition, new_condition)
@@ -72,9 +79,11 @@ module Rollbar
         end
       end
 
-      # @param conditions [Array<Rollbar::Notification::Condition::Base>]
-      def add_conditions!(conditions)
-        @conditions.concat(conditions)
+      # @param new_conditions [Array<Rollbar::Notification::Condition::Base>]
+      def add_conditions!(new_conditions)
+        new_conditions.each do |new_condition|
+          @conditions << new_condition
+        end
         self
       end
 

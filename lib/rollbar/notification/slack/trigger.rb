@@ -38,7 +38,9 @@ module Rollbar
                 new_rules << new_rule
               else
                 additional_conditions_set.each do |additional_conditions|
-                  new_rules << new_rule.dup.add_conditions!(additional_conditions)
+                  new_rules << new_rule.dup
+                    .add_conditions!(additional_conditions)
+                    .remove_redundant_conditions!
                 end
               end
             end

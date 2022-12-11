@@ -7,6 +7,8 @@ module Rollbar
       class Path < Base
         SUPPORTED_OPERATIONS = %w[eq neq within nwithin regex nregex exists nexists]
 
+        attr_reader :path
+
         # @param path [String]
         # @param operation [String]
         # @param value [String]
@@ -30,6 +32,10 @@ module Rollbar
         def build_complement_condition
           new_operation = @operation.start_with?("n") ? @operation.delete_prefix("n") : "n#{@operation}"
           self.class.new(@path, new_operation, @value)
+        end
+
+        def redundant_to?(other)
+          super && @path == other.path
         end
       end
     end

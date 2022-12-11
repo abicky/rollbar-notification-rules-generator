@@ -15,7 +15,7 @@ module Rollbar
           end
         end
 
-        attr_reader :operation, :level
+        attr_reader :level
 
         # @param operation [String]
         # @param value [String]
