@@ -1,0 +1,10 @@
+module Rollbar
+  module Notification
+    module Rules
+      module Generator
+        VERSION: String
+        # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+      end
+    end
+  end
+end

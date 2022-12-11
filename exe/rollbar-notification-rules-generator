@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+
+require "rollbar/notification/rules/generator"
