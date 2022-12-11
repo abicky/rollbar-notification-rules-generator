@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Rollbar
-  module Notification
+  class Notification
     module Rules
       module Generator
         VERSION = "0.1.0"

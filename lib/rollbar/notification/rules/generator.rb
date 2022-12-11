@@ -3,7 +3,7 @@
 require_relative "generator/version"
 
 module Rollbar
-  module Notification
+  class Notification
     module Rules
       module Generator
         class Error < StandardError; end

@@ -1,0 +1,7 @@
+channel: "slack"
+triggers:
+  new_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
