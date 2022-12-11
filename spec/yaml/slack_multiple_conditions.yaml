@@ -1,0 +1,29 @@
+channel: "slack"
+triggers:
+  new_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+        - type: "title"
+          operation: "within"
+          value: "foo"
+        - type: "path"
+          path: "body.body.trace.extra.a"
+          operation: "within"
+          value: "foo"
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+        - type: "title"
+          operation: "within"
+          value: "bar"
+        - type: "path"
+          path: "body.body.trace.extra.b"
+          operation: "within"
+          value: "bar"
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"

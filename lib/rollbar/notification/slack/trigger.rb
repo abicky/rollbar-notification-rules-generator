@@ -29,19 +29,27 @@ module Rollbar
 
         def to_tf
           new_rules = []
-          complement_conditions = Hash.new([])
+          level_value_to_additional_conditions_set = Hash.new([])
           highest_lowest_target_level = 0
           @rules.each do |rule|
             rule.split_rules(highest_lowest_target_level).each do |new_rule|
-              new_rule.add_conditions!(complement_conditions[new_rule.lowest_target_level_value])
-              new_rules << new_rule
+              additional_conditions_set = level_value_to_additional_conditions_set[new_rule.lowest_target_level_value]
+              if additional_conditions_set.empty?
+                new_rules << new_rule
+              else
+                additional_conditions_set.each do |additional_conditions|
+                  new_rules << new_rule.dup.add_conditions!(additional_conditions)
+                end
+              end
             end
 
             lowest_target_level = rule.lowest_target_level
             if lowest_target_level > highest_lowest_target_level
               highest_lowest_target_level = lowest_target_level
             end
-            complement_conditions.merge!(rule.build_complement_conditions) { |_, v1, v2| v1 + v2 }
+            level_value_to_additional_conditions_set.merge!(rule.build_additional_conditions_set_for_downstream) do |_, v1, v2|
+              v1.product(v2).map(&:flatten)
+            end
           end
 
           new_rules.map.with_index do |rule, i|

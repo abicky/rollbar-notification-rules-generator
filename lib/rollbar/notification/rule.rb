@@ -78,11 +78,30 @@ module Rollbar
         self
       end
 
-      def build_complement_conditions
+      def build_additional_conditions_set_for_downstream
         target_levels = level_condition&.target_level_values || Rollbar::Notification::Condition::Level::SUPPORTED_VALUES
 
-        complement_conditions = @conditions.select { |c| c.respond_to?(:build_complement_condition) }.map(&:build_complement_condition)
-        target_levels.zip([complement_conditions].cycle).to_h
+        conditions_with_complement = @conditions.select { |c| c.respond_to?(:build_complement_condition) }
+        return {} if conditions_with_complement.empty?
+
+        if conditions_with_complement.size == 1
+          additional_conditions = [[conditions_with_complement.first.build_complement_condition]]
+        else
+          # [cond1, cond2, cond3]
+          # => [
+          #     [cond1, cond2, not-cond3],
+          #     [cond1, not-cond2, cond3],
+          #     [cond1, not-cond2, not-cond3],
+          #     [not-cond1, cond2, cond3],
+          #     [not-cond1, cond2, not-cond3],
+          #     [not-cond1, not-cond2, cond3],
+          #     [not-cond1, not-cond2, not-cond3],
+          #   ]
+          additional_conditions = conditions_with_complement.map do |condition|
+            [condition, condition.build_complement_condition]
+          end.reduce(&:product).map(&:flatten) - [conditions_with_complement]
+        end
+        target_levels.zip([additional_conditions].cycle).to_h
       end
     end
   end
