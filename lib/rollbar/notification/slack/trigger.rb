@@ -18,8 +18,10 @@ module Rollbar
           }
         TF
 
+        # @param name [String]
         # @param rules [Array<Hash>]
-        def initialize(rules)
+        def initialize(name, rules)
+          @name = name
           @rules = rules.map do |rule|
             Rollbar::Notification::Rule.new(rule.fetch("conditions"))
           end
@@ -28,8 +30,8 @@ module Rollbar
         def to_tf
           @rules.map.with_index do |rule, i|
             TEMPLATE.result_with_hash({
-              resource_name: "slack_#{to_s}_#{i}",
-              trigger: to_s,
+              resource_name: "slack_#{@name}_#{i}",
+              trigger: @name,
               conditions: rule.conditions,
             })
           end.join("\n")

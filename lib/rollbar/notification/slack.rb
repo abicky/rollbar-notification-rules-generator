@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require "rollbar/notification/slack/new_item"
+require "rollbar/notification/slack/trigger"
 
 module Rollbar
   class Notification
@@ -7,12 +7,7 @@ module Rollbar
       # @param triggers [Hash{String => Array<Hash>}]
       def initialize(triggers)
         @triggers = triggers.map do |trigger, rules|
-          case trigger
-          when "new_item"
-            Rollbar::Notification::Slack::NewItem.new(rules)
-          else
-            raise ArgumentError, "Unsupported trigger: #{trigger}"
-          end
+          Rollbar::Notification::Slack::Trigger.new(trigger, rules)
         end
       end
 

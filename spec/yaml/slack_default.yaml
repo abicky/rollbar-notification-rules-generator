@@ -1,0 +1,55 @@
+channel: "slack"
+triggers:
+  new_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+  deploy:
+    - conditions:
+        - type: "environment"
+          operation: "eq"
+          value: "production"
+  reactivated_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+  reopened_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+  occurrence_rate:
+    - conditions:
+        - type: "rate"
+          count: 10
+          period: 300
+        - type: "level"
+          operation: "gte"
+          value: "error"
+  exp_repeat_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+  resolved_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+  occurrence:
+    - conditions:
+        - type: "title"
+          operation: "within"
+          value: "Your rate limit has been reached"
+        - type: "framework"
+          operation: "eq"
+          value: "System Message"
+    - conditions:
+        - type: "title"
+          operation: "within"
+          value: "The system rate limit of"
+        - type: "framework"
+          operation: "eq"
+          value: "System Message"

@@ -3,18 +3,14 @@
 module Rollbar
   class Notification
     module Condition
-      class Level
-        SUPPORTED_OPERATIONS = %w[eq gte]
-        SUPPORTED_VALUES = %w[debug info warning error critical]
+      class Framework
+        SUPPORTED_OPERATIONS = %w[eq]
 
         # @param operation [String]
         # @param value [String]
         def initialize(operation, value)
           unless SUPPORTED_OPERATIONS.include?(operation)
             raise ArgumentError, "Unsupported operation: #{operation}"
-          end
-          unless SUPPORTED_VALUES.include?(value)
-            raise ArgumentError, "Unsupported value: #{value}"
           end
           @operation = operation
           @value = value
@@ -23,7 +19,7 @@ module Rollbar
         def to_tf
           <<~TF
             filters {
-              type      = "level"
+              type      = "framework"
               operation = "#{@operation}"
               value     = "#{@value}"
             }
