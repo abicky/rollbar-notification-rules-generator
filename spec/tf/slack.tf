@@ -1,4 +1,4 @@
-resource "rollbar_notification" "slack" {
+resource "rollbar_notification" "slack_new_item_0" {
   channel = "slack"
 
   rule {
