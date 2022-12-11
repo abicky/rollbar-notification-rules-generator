@@ -1,33 +1,36 @@
 # frozen_string_literal: true
+require "rollbar/notification/condition/base"
 
 module Rollbar
   class Notification
     module Condition
-      class Level
+      class Level < Base
         SUPPORTED_OPERATIONS = %w[eq gte]
         SUPPORTED_VALUES = %w[debug info warning error critical]
+
+        # @param lowest_target_level [Integer]
+        def self.build_eq_conditions_from(lowest_target_level)
+          SUPPORTED_VALUES[lowest_target_level..].map do |value|
+            new("eq", value)
+          end
+        end
+
+        attr_reader :operation, :level
 
         # @param operation [String]
         # @param value [String]
         def initialize(operation, value)
-          unless SUPPORTED_OPERATIONS.include?(operation)
-            raise ArgumentError, "Unsupported operation: #{operation}"
-          end
-          unless SUPPORTED_VALUES.include?(value)
+          super
+          @type = "level"
+
+          @level = SUPPORTED_VALUES.index(value)
+          unless @level
             raise ArgumentError, "Unsupported value: #{value}"
           end
-          @operation = operation
-          @value = value
         end
 
-        def to_tf
-          <<~TF
-            filters {
-              type      = "level"
-              operation = "#{@operation}"
-              value     = "#{@value}"
-            }
-          TF
+        def target_level_values
+          @operation == "eq" ? [@value] : SUPPORTED_VALUES[@level..]
         end
       end
     end

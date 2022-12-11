@@ -8,7 +8,7 @@ RSpec.describe Rollbar::Notification do
       out.string
     end
 
-    %w[slack_default].each do |name|
+    %w[slack_default slack_title_conditions].each do |name|
       context name do
         let(:yaml) { yaml_file(name) }
         let(:expected_tf) { tf_file_content(name) }

@@ -1,0 +1,38 @@
+channel: "slack"
+triggers:
+  new_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+        - type: "title"
+          operation: "within"
+          value: "foo"
+    - conditions:
+        - type: "level"
+          operation: "eq"
+          value: "critical"
+        - type: "title"
+          operation: "within"
+          value: "bar"
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+        - type: "title"
+          operation: "within"
+          value: "baz"
+    - conditions:
+        - type: "level"
+          operation: "eq"
+          value: "warning"
+        - type: "title"
+          operation: "within"
+          value: "qux"
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "warning"
+        - type: "title"
+          operation: "within"
+          value: "quux"

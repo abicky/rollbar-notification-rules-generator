@@ -127,5 +127,10 @@ resource "rollbar_notification" "slack_occurrence_1" {
       operation = "eq"
       value     = "System Message"
     }
+    filters {
+      type      = "title"
+      operation = "nwithin"
+      value     = "Your rate limit has been reached"
+    }
   }
 }

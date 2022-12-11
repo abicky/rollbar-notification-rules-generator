@@ -4,9 +4,12 @@ module Rollbar
   class Notification
     module Condition
       class Rate
+        attr_reader :type
+
         # @param count [Integer]
         # @param period [Integer]
         def initialize(count, period)
+          @type = "rate"
           @count = count
           @period = period
         end
@@ -14,7 +17,7 @@ module Rollbar
         def to_tf
           <<~TF
             filters {
-              type   = "rate"
+              type   = "#{@type}"
               count  = #{@count}
               period = #{@period}
             }

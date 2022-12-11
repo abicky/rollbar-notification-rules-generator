@@ -1,29 +1,15 @@
 # frozen_string_literal: true
+require "rollbar/notification/condition/base"
 
 module Rollbar
   class Notification
     module Condition
-      class Framework
+      class Framework < Base
         SUPPORTED_OPERATIONS = %w[eq]
 
-        # @param operation [String]
-        # @param value [String]
         def initialize(operation, value)
-          unless SUPPORTED_OPERATIONS.include?(operation)
-            raise ArgumentError, "Unsupported operation: #{operation}"
-          end
-          @operation = operation
-          @value = value
-        end
-
-        def to_tf
-          <<~TF
-            filters {
-              type      = "framework"
-              operation = "#{@operation}"
-              value     = "#{@value}"
-            }
-          TF
+          super
+          @type = "framework"
         end
       end
     end
