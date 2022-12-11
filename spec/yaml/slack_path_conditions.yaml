@@ -1,0 +1,43 @@
+channel: "slack"
+triggers:
+  new_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+        - type: "path"
+          path: "body.body.trace.extra.a"
+          operation: "within"
+          value: "foo"
+    - conditions:
+        - type: "level"
+          operation: "eq"
+          value: "critical"
+        - type: "path"
+          path: "body.body.trace.extra.b"
+          operation: "within"
+          value: "bar"
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+        - type: "path"
+          path: "body.body.trace.extra.a"
+          operation: "within"
+          value: "baz"
+    - conditions:
+        - type: "level"
+          operation: "eq"
+          value: "warning"
+        - type: "path"
+          path: "body.body.trace.extra.c"
+          operation: "within"
+          value: "qux"
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "warning"
+        - type: "path"
+          path: "body.body.trace.extra.d"
+          operation: "within"
+          value: "quux"

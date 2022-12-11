@@ -2,6 +2,7 @@
 require "rollbar/notification/condition/environment"
 require "rollbar/notification/condition/framework"
 require "rollbar/notification/condition/level"
+require "rollbar/notification/condition/path"
 require "rollbar/notification/condition/rate"
 require "rollbar/notification/condition/title"
 
@@ -20,6 +21,8 @@ module Rollbar
             Rollbar::Notification::Condition::Framework.new(condition.fetch("operation"), condition.fetch("value"))
           when "level"
             Rollbar::Notification::Condition::Level.new(condition.fetch("operation"), condition.fetch("value"))
+          when "path"
+            Rollbar::Notification::Condition::Path.new(condition.fetch("path"), condition.fetch("operation"), condition.fetch("value"))
           when "rate"
             Rollbar::Notification::Condition::Rate.new(condition.fetch("count"), condition.fetch("period"))
           when "title"
@@ -75,11 +78,11 @@ module Rollbar
         self
       end
 
-      def build_complement_title_conditions
+      def build_complement_conditions
         target_levels = level_condition&.target_level_values || Rollbar::Notification::Condition::Level::SUPPORTED_VALUES
 
-        complement_title_conditions = @conditions.select { |c| c.type == "title" }.map(&:build_complement_condition)
-        target_levels.zip([complement_title_conditions].cycle).to_h
+        complement_conditions = @conditions.select { |c| c.respond_to?(:build_complement_condition) }.map(&:build_complement_condition)
+        target_levels.zip([complement_conditions].cycle).to_h
       end
     end
   end
