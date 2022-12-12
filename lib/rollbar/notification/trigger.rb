@@ -23,12 +23,13 @@ module Rollbar
       # @param channel [String]
       # @param name [String]
       # @param rules [Array<Hash>]
-      def initialize(channel, name, rules)
+      def initialize(channel, name, rules, variables)
         @channel = channel
         @name = name
         @rules = rules.map do |rule|
           Rollbar::Notification::Rule.new(rule)
         end
+        @variables = variables
       end
 
       def to_tf
@@ -68,7 +69,7 @@ module Rollbar
               trigger: @name,
               conditions: rule.conditions,
               config: config,
-            })
+            }).gsub(/\${{\s*var\.(\w+)\s*}}/) { @variables.fetch($1) }
           end
         end.join("\n")
       end

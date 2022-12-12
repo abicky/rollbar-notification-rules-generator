@@ -12,7 +12,11 @@ module Rollbar
 
     # @param out [IO]
     def generate_tf_file(out)
-      Rollbar::Notification::Channel.new(@config.fetch("channel"), @config.fetch("triggers")).generate_tf_file(out)
+      Rollbar::Notification::Channel.new(
+        @config.fetch("channel"),
+        @config.fetch("triggers"),
+        @config.fetch("variables", {})
+      ).generate_tf_file(out)
     end
   end
 end

@@ -1,0 +1,21 @@
+channel: "pagerduty"
+variables:
+  service_key_for_a: "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+triggers:
+  exp_repeat_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+      configs:
+        - service_key: ${{ var.service_key_for_a }}
+  reactivated_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+  resolved_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"

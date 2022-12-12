@@ -8,13 +8,14 @@ module Rollbar
 
       # @param channel [String]
       # @param triggers [Hash{String => Array<Hash>}]
-      def initialize(channel, triggers)
+      # @param variables [Hash{String => String}]
+      def initialize(channel, triggers, variables)
         unless SUPPORTED_CHANNELS.include?(channel)
           raise ArgumentError, "Unsupported channel: #{channel}"
         end
 
         @triggers = triggers.map do |trigger, rules|
-          Rollbar::Notification::Trigger.new(channel, trigger, rules)
+          Rollbar::Notification::Trigger.new(channel, trigger, rules, variables)
         end
       end
 
