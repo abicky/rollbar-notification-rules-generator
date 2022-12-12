@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "rollbar/notification"
-require "rollbar/notification/rules/generator"
 Dir[File.join(__dir__, "support", "**", "*.rb")].each do |f|
   require f
 end

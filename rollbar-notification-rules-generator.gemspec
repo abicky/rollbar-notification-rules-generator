@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "lib/rollbar/notification/rules/generator/version"
-
 Gem::Specification.new do |spec|
   spec.name = "rollbar-notification-rules-generator"
-  spec.version = Rollbar::Notification::Rules::Generator::VERSION
+  spec.version = "0.1.0"
   spec.authors = ["abicky"]
   spec.email = ["takeshi.arabiki@gmail.com"]
 

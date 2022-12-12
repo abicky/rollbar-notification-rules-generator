@@ -1,3 +1,19 @@
 #!/usr/bin/env ruby
 
-require "rollbar/notification/rules/generator"
+require "rollbar/notification"
+
+USAGE = <<~USAGE
+  Usage: #{File.basename(__FILE__ )} <input>
+USAGE
+
+input = ARGV[0]
+case input
+when nil
+  $stderr.puts(USAGE)
+  exit 1
+when "-h", "--help"
+  puts USAGE
+  exit
+end
+
+Rollbar::Notification.new(input).generate_tf_file($stdout)
