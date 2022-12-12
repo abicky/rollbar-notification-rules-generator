@@ -1,0 +1,21 @@
+channel: "slack"
+triggers:
+  new_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+        - type: "environment"
+          operation: "eq"
+          value: "production"
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+        - type: "environment"
+          operation: "eq"
+          value: "staging"
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"

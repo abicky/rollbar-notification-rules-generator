@@ -11,6 +11,10 @@ module Rollbar
           super
           @type = "environment"
         end
+
+        def build_complement_condition
+          self.class.new(@operation == "eq" ? "neq" : "eq", @value)
+        end
       end
     end
   end
