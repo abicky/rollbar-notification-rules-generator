@@ -9,11 +9,11 @@ require "rollbar/notification/condition/title"
 module Rollbar
   class Notification
     class Rule
-      attr_reader :conditions
+      attr_reader :conditions, :configs
 
-      # @param conditions [Array<Hash>]
-      def initialize(conditions)
-        @conditions = conditions.map do |condition|
+      # @param rule [Hash]
+      def initialize(rule)
+        @conditions = rule.fetch("conditions").map do |condition|
           case condition.fetch("type")
           when "environment"
             Rollbar::Notification::Condition::Environment.new(condition.fetch("operation"), condition.fetch("value"))
@@ -31,6 +31,7 @@ module Rollbar
             raise ArgumentError, "Unsupported condition type: #{condition.fetch("type")}"
           end
         end
+        @configs = rule.fetch("configs", [{}])
       end
 
       def initialize_dup(original)

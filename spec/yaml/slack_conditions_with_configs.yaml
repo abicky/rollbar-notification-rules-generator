@@ -1,0 +1,28 @@
+channel: "slack"
+triggers:
+  new_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+        - type: "path"
+          path: "body.body.trace.extra.a"
+          operation: "within"
+          value: "foo"
+      configs:
+        - message_template: "template1"
+          channel: "general"
+          show_message_buttons: true
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+        - type: "path"
+          path: "body.body.trace.extra.b"
+          operation: "within"
+          value: "bar"
+      configs:
+        - message_template: "template2"
+          channel: "general"
+          show_message_buttons: true
+        - channel: "random"

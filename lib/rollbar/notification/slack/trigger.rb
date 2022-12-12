@@ -14,7 +14,10 @@ module Rollbar
             rule {
               trigger = "<%= trigger %>"
           <%= conditions.map { |condition| condition.to_tf.gsub(/^/, "    ") }.join.chomp %>
-            }
+            }<% unless config.empty? %><% max_key_len = config.keys.map(&:size).max %>
+            config {
+          <%= config.compact.map { |key, value| '    %-*s = %s' % [max_key_len, key, value.inspect] }.join("\n") %>
+            }<% end %>
           }
         TF
 
@@ -23,7 +26,7 @@ module Rollbar
         def initialize(name, rules)
           @name = name
           @rules = rules.map do |rule|
-            Rollbar::Notification::Rule.new(rule.fetch("conditions"))
+            Rollbar::Notification::Rule.new(rule)
           end
         end
 
@@ -54,12 +57,17 @@ module Rollbar
             end
           end
 
-          new_rules.map.with_index do |rule, i|
-            TEMPLATE.result_with_hash({
-              resource_name: "slack_#{@name}_#{i}",
-              trigger: @name,
-              conditions: rule.conditions,
-            })
+          i = -1
+          new_rules.flat_map do |rule|
+            rule.configs.map do |config|
+              i += 1
+              TEMPLATE.result_with_hash({
+                resource_name: "slack_#{@name}_#{i}",
+                trigger: @name,
+                conditions: rule.conditions,
+                config: config,
+              })
+            end
           end.join("\n")
         end
       end
