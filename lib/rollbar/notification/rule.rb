@@ -52,10 +52,6 @@ module Rollbar
         self
       end
 
-      def level_condition
-        @conditions.find { |c| c.type == "level" }
-      end
-
       def lowest_target_level
         level_condition&.level || 0
       end
@@ -111,6 +107,12 @@ module Rollbar
           end.reduce(&:product).map(&:flatten) - [conditions_with_complement]
         end
         target_levels.zip([additional_conditions].cycle).to_h
+      end
+
+      private
+
+      def level_condition
+        @conditions.find { |c| c.type == "level" }
       end
     end
   end
