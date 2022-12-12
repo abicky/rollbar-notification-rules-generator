@@ -1,0 +1,17 @@
+channel: "pagerduty"
+triggers:
+  exp_repeat_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+  reactivated_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
+  resolved_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"

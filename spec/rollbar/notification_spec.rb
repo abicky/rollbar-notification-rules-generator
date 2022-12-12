@@ -16,6 +16,7 @@ RSpec.describe Rollbar::Notification do
       slack_eq_conditions
       slack_environment_conditions
       slack_conditions_with_configs
+      pagerduty_default
     ].each do |name|
       context name do
         let(:yaml) { yaml_file(name) }
