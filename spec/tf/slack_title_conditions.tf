@@ -198,14 +198,14 @@ resource "rollbar_notification" "slack_new_item_8" {
   rule {
     trigger = "new_item"
     filters {
-      type      = "level"
-      operation = "eq"
-      value     = "debug"
-    }
-    filters {
       type      = "title"
       operation = "within"
       value     = "corge"
+    }
+    filters {
+      type      = "level"
+      operation = "eq"
+      value     = "debug"
     }
   }
 }
@@ -216,18 +216,17 @@ resource "rollbar_notification" "slack_new_item_9" {
   rule {
     trigger = "new_item"
     filters {
-      type      = "level"
-      operation = "eq"
-      value     = "info"
-    }
-    filters {
       type      = "title"
       operation = "within"
       value     = "corge"
     }
+    filters {
+      type      = "level"
+      operation = "eq"
+      value     = "info"
+    }
   }
 }
-
 
 resource "rollbar_notification" "slack_new_item_10" {
   channel = "slack"
@@ -235,24 +234,24 @@ resource "rollbar_notification" "slack_new_item_10" {
   rule {
     trigger = "new_item"
     filters {
+      type      = "title"
+      operation = "within"
+      value     = "corge"
+    }
+    filters {
       type      = "level"
       operation = "eq"
       value     = "warning"
     }
     filters {
       type      = "title"
-      operation = "within"
-      value     = "corge"
+      operation = "nwithin"
+      value     = "qux"
     }
     filters {
       type      = "title"
       operation = "nwithin"
       value     = "quux"
-    }
-    filters {
-      type      = "title"
-      operation = "nwithin"
-      value     = "qux"
     }
   }
 }
@@ -263,19 +262,14 @@ resource "rollbar_notification" "slack_new_item_11" {
   rule {
     trigger = "new_item"
     filters {
+      type      = "title"
+      operation = "within"
+      value     = "corge"
+    }
+    filters {
       type      = "level"
       operation = "eq"
       value     = "error"
-    }
-    filters {
-      type = "title"
-      operation = "within"
-      value = "corge"
-    }
-    filters {
-      type      = "title"
-      operation = "nwithin"
-      value     = "quux"
     }
     filters {
       type      = "title"
@@ -287,6 +281,11 @@ resource "rollbar_notification" "slack_new_item_11" {
       operation = "nwithin"
       value     = "baz"
     }
+    filters {
+      type      = "title"
+      operation = "nwithin"
+      value     = "quux"
+    }
   }
 }
 
@@ -296,19 +295,14 @@ resource "rollbar_notification" "slack_new_item_12" {
   rule {
     trigger = "new_item"
     filters {
+      type      = "title"
+      operation = "within"
+      value     = "corge"
+    }
+    filters {
       type      = "level"
       operation = "eq"
       value     = "critical"
-    }
-    filters {
-      type = "title"
-      operation = "within"
-      value = "corge"
-    }
-    filters {
-      type      = "title"
-      operation = "nwithin"
-      value     = "quux"
     }
     filters {
       type      = "title"
@@ -324,6 +318,11 @@ resource "rollbar_notification" "slack_new_item_12" {
       type      = "title"
       operation = "nwithin"
       value     = "baz"
+    }
+    filters {
+      type      = "title"
+      operation = "nwithin"
+      value     = "quux"
     }
   }
 }

@@ -36,6 +36,7 @@ module Rollbar
 
       def initialize_dup(original)
         @conditions = original.conditions.dup
+        remove_instance_variable(:@level_condition)
         super
       end
 
@@ -61,24 +62,40 @@ module Rollbar
         Rollbar::Notification::Condition::Level::SUPPORTED_VALUES[lowest_target_level]
       end
 
+      # Splits rules if necessary.
+      # Assuming the following two rules:
+      #   level = critical, title contains substring "bar"
+      #   level >= error,   title contains substring "baz"
+      # the second rule will be split into two rules with "eq" operation:
+      #   level = critical, title contains substring "bar"
+      #   level = critical, title contains substring "baz"
+      #   level = error,    title contains substring "baz"
+      # whereas assuming the following two rules:
+      #   level = warning, title contains substring "bar"
+      #   level >= error,   title contains substring "baz"
+      # this method doesn't split the second rule because each rule
+      # is already mutually exclusive.
+      #
       # @param highest_lowest_target_level [Integer]
       # @return [Array<Rollbar:Notification::Rule>]
       def split_rules(highest_lowest_target_level)
-        return [dup] if level_condition&.operation == "eq"
+        return [dup] if level_condition&.operation == "eq" || highest_lowest_target_level <= lowest_target_level
 
-        if highest_lowest_target_level > lowest_target_level
-          new_level_conditions = Rollbar::Notification::Condition::Level.build_eq_conditions_from(lowest_target_level)
+        new_level_conditions = Rollbar::Notification::Condition::Level.build_eq_conditions_from(lowest_target_level)
+        if level_condition
           new_level_conditions.map do |condition|
             dup.replace_condition!(level_condition, condition)
           end
         else
-          [dup]
+          new_level_conditions.map do |condition|
+            dup.add_conditions!(condition)
+          end
         end
       end
 
-      # @param new_conditions [Array<Rollbar::Notification::Condition::Base>]
+      # @param new_conditions [Rollbar::Notification::Condition::Base, Array<Rollbar::Notification::Condition::Base>]
       def add_conditions!(new_conditions)
-        new_conditions.each do |new_condition|
+        Array(new_conditions).each do |new_condition|
           @conditions << new_condition
         end
         self
@@ -113,7 +130,8 @@ module Rollbar
       private
 
       def level_condition
-        @conditions.find { |c| c.type == "level" }
+        return @level_condition if defined?(@level_condition)
+        @level_condition = @conditions.find { |c| c.type == "level" }
       end
     end
   end
