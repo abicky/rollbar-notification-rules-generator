@@ -40,6 +40,7 @@ module Rollbar
         super
       end
 
+      # @return [Rule]
       def remove_redundant_conditions!
         @conditions.delete_if do |condition|
           @conditions.any? { |other| condition.redundant_to?(other) }
@@ -47,17 +48,20 @@ module Rollbar
         self
       end
 
-      # @param old_condition [Rollbar::Notification::Condition::Base]
-      # @param new_condition [Rollbar::Notification::Condition::Base]
+      # @param old_condition [Condition::Base]
+      # @param new_condition [Condition::Base]
+      # @return [Rule]
       def replace_condition!(old_condition, new_condition)
         @conditions[@conditions.index(old_condition)] = new_condition
         self
       end
 
+      # @return [Integer]
       def lowest_target_level
         level_condition&.level || 0
       end
 
+      # @return [String]
       def lowest_target_level_value
         Rollbar::Notification::Condition::Level::SUPPORTED_VALUES[lowest_target_level]
       end
@@ -76,8 +80,9 @@ module Rollbar
       # this method doesn't split the second rule because each rule
       # is already mutually exclusive.
       #
-      # @param highest_lowest_target_level [Integer]
-      # @return [Array<Rollbar:Notification::Rule>]
+      # @param highest_lowest_target_level [Integer] the highest lowest_target_level
+      #   among the preceding rules.
+      # @return [Array<Rule>]
       def split_rules(highest_lowest_target_level)
         return [dup] if level_condition&.operation == "eq" || highest_lowest_target_level <= lowest_target_level
 
@@ -93,7 +98,8 @@ module Rollbar
         end
       end
 
-      # @param new_conditions [Rollbar::Notification::Condition::Base, Array<Rollbar::Notification::Condition::Base>]
+      # @param new_conditions [Condition::Base, Array<Condition::Base>]
+      # @return [Rule]
       def add_conditions!(new_conditions)
         Array(new_conditions).each do |new_condition|
           @conditions << new_condition
@@ -102,6 +108,7 @@ module Rollbar
       end
 
       def build_additional_conditions_set_for_downstream
+      # @return [Hash{String => Array<Condition::Base>}]
         target_levels = level_condition&.target_level_values || Rollbar::Notification::Condition::Level::SUPPORTED_VALUES
 
         conditions_with_complement = @conditions.select { |c| c.respond_to?(:build_complement_condition) }

@@ -9,6 +9,7 @@ module Rollbar
         SUPPORTED_VALUES = %w[debug info warning error critical]
 
         # @param lowest_target_level [Integer]
+        # @return [Array<Level>]
         def self.build_eq_conditions_from(lowest_target_level)
           SUPPORTED_VALUES[lowest_target_level..].map do |value|
             new("eq", value)
@@ -29,6 +30,7 @@ module Rollbar
           end
         end
 
+        # @return [Array<String>]
         def target_level_values
           @operation == "eq" ? [@value] : SUPPORTED_VALUES[@level..]
         end

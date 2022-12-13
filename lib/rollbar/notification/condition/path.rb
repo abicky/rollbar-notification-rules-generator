@@ -29,11 +29,13 @@ module Rollbar
           TF
         end
 
+        # @return [Path]
         def build_complement_condition
           new_operation = @operation.start_with?("n") ? @operation.delete_prefix("n") : "n#{@operation}"
           self.class.new(@path, new_operation, @value)
         end
 
+        # @return [Boolean]
         def redundant_to?(other)
           super && @path == other.path
         end
