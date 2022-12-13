@@ -36,3 +36,7 @@ triggers:
         - type: "title"
           operation: "within"
           value: "quux"
+    - conditions:
+        - type: "title"
+          operation: "within"
+          value: "corge"

@@ -191,3 +191,139 @@ resource "rollbar_notification" "slack_new_item_7" {
     }
   }
 }
+
+resource "rollbar_notification" "slack_new_item_8" {
+  channel = "slack"
+
+  rule {
+    trigger = "new_item"
+    filters {
+      type      = "level"
+      operation = "eq"
+      value     = "debug"
+    }
+    filters {
+      type      = "title"
+      operation = "within"
+      value     = "corge"
+    }
+  }
+}
+
+resource "rollbar_notification" "slack_new_item_9" {
+  channel = "slack"
+
+  rule {
+    trigger = "new_item"
+    filters {
+      type      = "level"
+      operation = "eq"
+      value     = "info"
+    }
+    filters {
+      type      = "title"
+      operation = "within"
+      value     = "corge"
+    }
+  }
+}
+
+
+resource "rollbar_notification" "slack_new_item_10" {
+  channel = "slack"
+
+  rule {
+    trigger = "new_item"
+    filters {
+      type      = "level"
+      operation = "eq"
+      value     = "warning"
+    }
+    filters {
+      type      = "title"
+      operation = "within"
+      value     = "corge"
+    }
+    filters {
+      type      = "title"
+      operation = "nwithin"
+      value     = "quux"
+    }
+    filters {
+      type      = "title"
+      operation = "nwithin"
+      value     = "qux"
+    }
+  }
+}
+
+resource "rollbar_notification" "slack_new_item_11" {
+  channel = "slack"
+
+  rule {
+    trigger = "new_item"
+    filters {
+      type      = "level"
+      operation = "eq"
+      value     = "error"
+    }
+    filters {
+      type = "title"
+      operation = "within"
+      value = "corge"
+    }
+    filters {
+      type      = "title"
+      operation = "nwithin"
+      value     = "quux"
+    }
+    filters {
+      type      = "title"
+      operation = "nwithin"
+      value     = "foo"
+    }
+    filters {
+      type      = "title"
+      operation = "nwithin"
+      value     = "baz"
+    }
+  }
+}
+
+resource "rollbar_notification" "slack_new_item_12" {
+  channel = "slack"
+
+  rule {
+    trigger = "new_item"
+    filters {
+      type      = "level"
+      operation = "eq"
+      value     = "critical"
+    }
+    filters {
+      type = "title"
+      operation = "within"
+      value = "corge"
+    }
+    filters {
+      type      = "title"
+      operation = "nwithin"
+      value     = "quux"
+    }
+    filters {
+      type      = "title"
+      operation = "nwithin"
+      value     = "foo"
+    }
+    filters {
+      type      = "title"
+      operation = "nwithin"
+      value     = "bar"
+    }
+    filters {
+      type      = "title"
+      operation = "nwithin"
+      value     = "baz"
+    }
+  }
+}
