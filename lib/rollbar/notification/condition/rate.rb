@@ -23,6 +23,11 @@ module Rollbar
             }
           TF
         end
+
+        # @param other [Rollbar::Notification::Condition::Base]
+        def redundant_to?(other)
+          false
+        end
       end
     end
   end

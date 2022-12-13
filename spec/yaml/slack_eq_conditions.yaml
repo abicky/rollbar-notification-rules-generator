@@ -41,3 +41,26 @@ triggers:
           path: "body.body.trace.extra.d"
           operation: "eq"
           value: "quux"
+  occurrence_rate:
+    - conditions:
+        - type: "rate"
+          count: 10
+          period: 300
+        - type: "level"
+          operation: "gte"
+          value: "error"
+        - type: "path"
+          path: "body.body.trace.extra.a"
+          operation: "eq"
+          value: "foo"
+    - conditions:
+        - type: "rate"
+          count: 10
+          period: 300
+        - type: "level"
+          operation: "eq"
+          value: "critical"
+        - type: "path"
+          path: "body.body.trace.extra.b"
+          operation: "eq"
+          value: "bar"

@@ -197,3 +197,57 @@ resource "rollbar_notification" "slack_new_item_7" {
     }
   }
 }
+
+resource "rollbar_notification" "slack_occurrence_rate_0" {
+  channel = "slack"
+
+  rule {
+    trigger = "occurrence_rate"
+    filters {
+      type   = "rate"
+      count  = 10
+      period = 300
+    }
+    filters {
+      type      = "level"
+      operation = "gte"
+      value     = "error"
+    }
+    filters {
+      type      = "path"
+      path      = "body.body.trace.extra.a"
+      operation = "eq"
+      value     = "foo"
+    }
+  }
+}
+
+resource "rollbar_notification" "slack_occurrence_rate_1" {
+  channel = "slack"
+
+  rule {
+    trigger = "occurrence_rate"
+    filters {
+      type   = "rate"
+      count  = 10
+      period = 300
+    }
+    filters {
+      type      = "level"
+      operation = "eq"
+      value     = "critical"
+    }
+    filters {
+      type      = "path"
+      path      = "body.body.trace.extra.b"
+      operation = "eq"
+      value     = "bar"
+    }
+    filters {
+      type      = "path"
+      path      = "body.body.trace.extra.a"
+      operation = "neq"
+      value     = "foo"
+    }
+  }
+}
