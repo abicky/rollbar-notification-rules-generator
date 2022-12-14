@@ -7,7 +7,9 @@ module Rollbar
   class Notification
     class Trigger
       TEMPLATE = ERB.new(<<~TF)
-          resource "rollbar_notification" "<%= resource_name %>" {
+          resource "rollbar_notification" "<%= resource_name %>" {<% if provider %>
+            provider = <%= provider %>
+          <% end %>
             channel = "<%= channel %>"
 
             rule {
@@ -32,13 +34,14 @@ module Rollbar
         @variables = variables
       end
 
-      def to_tf
+      def to_tf(provider)
         i = -1
         build_mutually_exclusive_rules.flat_map do |rule|
           rule.configs.map do |config|
             i += 1
             TEMPLATE.result_with_hash({
               resource_name: "#{@channel}_#{@name}_#{i}",
+              provider: provider,
               channel: @channel,
               trigger: @name,
               conditions: rule.conditions,

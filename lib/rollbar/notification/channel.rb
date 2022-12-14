@@ -20,8 +20,9 @@ module Rollbar
       end
 
       # @param out [IO]
-      def generate_tf_file(out)
-        out.puts(@triggers.map(&:to_tf).join("\n"))
+      # @param provider [String]
+      def generate_tf_file(out, provider)
+        out.puts(@triggers.map { |t| t.to_tf(provider) }.join("\n"))
       end
     end
   end

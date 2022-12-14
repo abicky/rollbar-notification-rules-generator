@@ -1,0 +1,8 @@
+channel: "slack"
+terraform_provider: rollbar.alias_value
+triggers:
+  new_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"

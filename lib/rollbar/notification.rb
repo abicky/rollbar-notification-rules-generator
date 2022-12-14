@@ -16,7 +16,7 @@ module Rollbar
         @config.fetch("channel"),
         @config.fetch("triggers"),
         @config.fetch("variables", {})
-      ).generate_tf_file(out)
+      ).generate_tf_file(out, @config["terraform_provider"])
     end
   end
 end
