@@ -1,0 +1,5 @@
+# Slack
+## New Item
+### Rule 0
+conditions:
+  level >= error

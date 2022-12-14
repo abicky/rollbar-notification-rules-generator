@@ -12,6 +12,11 @@ module Rollbar
           @type = "environment"
         end
 
+        # @return [String]
+        def to_s
+          "#{@type} #{@operation == "eq" ? "==" : "!="} #{@value}"
+        end
+
         # @return [Environment]
         def build_complement_condition
           self.class.new(@operation == "eq" ? "neq" : "eq", @value)

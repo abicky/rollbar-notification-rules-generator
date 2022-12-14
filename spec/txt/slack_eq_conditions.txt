@@ -1,0 +1,63 @@
+# Slack
+## New Item
+### Rule 0
+conditions:
+  level >= error
+  path body.body.trace.extra.a == "foo"
+
+### Rule 1
+conditions:
+  level == critical
+  path body.body.trace.extra.b == "bar"
+  path body.body.trace.extra.a != "foo"
+
+### Rule 2
+conditions:
+  level == error
+  path body.body.trace.extra.a == "baz"
+
+### Rule 3
+conditions:
+  level == critical
+  path body.body.trace.extra.a == "baz"
+  path body.body.trace.extra.b != "bar"
+
+### Rule 4
+conditions:
+  level == warning
+  path body.body.trace.extra.c == "qux"
+
+### Rule 5
+conditions:
+  level == warning
+  path body.body.trace.extra.d == "quux"
+  path body.body.trace.extra.c != "qux"
+
+### Rule 6
+conditions:
+  level == error
+  path body.body.trace.extra.d == "quux"
+  path body.body.trace.extra.a != "foo"
+  path body.body.trace.extra.a != "baz"
+
+### Rule 7
+conditions:
+  level == critical
+  path body.body.trace.extra.d == "quux"
+  path body.body.trace.extra.a != "foo"
+  path body.body.trace.extra.b != "bar"
+  path body.body.trace.extra.a != "baz"
+
+## High Occurrence Rate
+### Rule 0
+conditions:
+  At least 10 occurrences within 5 minutes
+  level >= error
+  path body.body.trace.extra.a == "foo"
+
+### Rule 1
+conditions:
+  At least 10 occurrences within 5 minutes
+  level == critical
+  path body.body.trace.extra.b == "bar"
+  path body.body.trace.extra.a != "foo"

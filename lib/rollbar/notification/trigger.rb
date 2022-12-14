@@ -6,7 +6,26 @@ require "rollbar/notification/rule"
 module Rollbar
   class Notification
     class Trigger
-      TEMPLATE = ERB.new(<<~TF)
+      TRIGGER_TO_TEXT = {
+        "deploy" => "Deploy",
+        "exp_repeat_item" => "10^nth Occurrence",
+        "occurrence_rate" => "High Occurrence Rate",
+        "new_item" => "New Item",
+        "occurrence" => "Every Occurrence",
+        "reactivated_item" => "Item Reactivated",
+        "reopened_item" => "Item Reopened",
+        "resolved_item" => "Item Resolved",
+      }
+
+      TEXT_TEMPLATE = ERB.new(<<~TEXT)
+          conditions:
+          <%= conditions.map { |condition| condition.to_s.gsub(/^/, "  ") }.join("\n").chomp %><% unless config.empty? %><% max_key_len = config.keys.map(&:size).max %>
+
+          config:
+          <%= config.compact.map { |key, value| '    %-*s = %s' % [max_key_len, key, value.inspect] }.join("\n") %><% end %>
+      TEXT
+
+      TF_TEMPLATE = ERB.new(<<~TF)
           resource "rollbar_notification" "<%= resource_name %>" {<% if provider %>
             provider = <%= provider %>
           <% end %>
@@ -34,12 +53,30 @@ module Rollbar
         @variables = variables
       end
 
+      def to_s
+        str = +"## #{TRIGGER_TO_TEXT.fetch(@name)}\n"
+        i = -1
+        build_mutually_exclusive_rules.each do |rule|
+          rule.configs.map do |config|
+            i += 1
+            str << "### Rule #{i}\n"
+            str << TEXT_TEMPLATE.result_with_hash({
+              conditions: rule.conditions,
+              config: config,
+            }).gsub(/\${{\s*var\.(\w+)\s*}}/) { @variables.fetch($1) }
+          end
+          str << "\n"
+        end
+
+        str
+      end
+
       def to_tf(provider)
         i = -1
         build_mutually_exclusive_rules.flat_map do |rule|
           rule.configs.map do |config|
             i += 1
-            TEMPLATE.result_with_hash({
+            TF_TEMPLATE.result_with_hash({
               resource_name: "#{@channel}_#{@name}_#{i}",
               provider: provider,
               channel: @channel,

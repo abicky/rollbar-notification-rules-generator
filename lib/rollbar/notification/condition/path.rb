@@ -6,6 +6,16 @@ module Rollbar
     module Condition
       class Path < Base
         SUPPORTED_OPERATIONS = %w[eq neq within nwithin regex nregex exists nexists]
+        OPERATION_TO_TEXT = {
+          "eq" => "==",
+          "neq" => "!=",
+          "within" => "contains substring",
+          "nwithin" => "does not contain substring",
+          "regex" => "contains substring matching regex",
+          "nregex" => "does not contain substring matching regex",
+          "exists" => "exists",
+          "nexists" => "does not exist",
+        }
 
         attr_reader :path
 
@@ -27,6 +37,11 @@ module Rollbar
               value     = "#{@value}"
             }
           TF
+        end
+
+        # @return [String]
+        def to_s
+          %Q{#{@type} #{@path} #{OPERATION_TO_TEXT[@operation]} "#{@value}"}
         end
 
         # @return [Path]

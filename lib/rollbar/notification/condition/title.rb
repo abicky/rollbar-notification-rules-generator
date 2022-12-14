@@ -6,10 +6,21 @@ module Rollbar
     module Condition
       class Title < Base
         SUPPORTED_OPERATIONS = %w[within nwithin regex nregex]
+        OPERATION_TO_TEXT = {
+          "within" => "contains substring",
+          "nwithin" => "does not contain substring",
+          "regex" => "contains substring matching regex",
+          "nregex" => "does not contain substring matching regex",
+        }
 
         def initialize(operation, value)
           super
           @type = "title"
+        end
+
+        # @return [String]
+        def to_s
+          %Q{#{@type} #{OPERATION_TO_TEXT[@operation]} "#{@value}"}
         end
 
         def build_complement_condition

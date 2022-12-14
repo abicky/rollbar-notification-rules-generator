@@ -30,6 +30,11 @@ module Rollbar
           end
         end
 
+        # @return [String]
+        def to_s
+          "#{@type} #{@operation == "eq" ? "==" : ">="} #{@value}"
+        end
+
         # @return [Array<String>]
         def target_level_values
           @operation == "eq" ? [@value] : SUPPORTED_VALUES[@level..]

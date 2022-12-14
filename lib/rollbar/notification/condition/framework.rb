@@ -11,6 +11,11 @@ module Rollbar
           super
           @type = "framework"
         end
+
+        # @return [String]
+        def to_s
+          "#{@type} #{@value}"
+        end
       end
     end
   end

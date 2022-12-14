@@ -1,19 +1,34 @@
 #!/usr/bin/env ruby
+require "optparse"
 
 require "rollbar/notification"
 
-USAGE = <<~USAGE
-  Usage: #{File.basename(__FILE__ )} <input>
-USAGE
+FORMATS = %w[terraform text]
 
-input = ARGV[0]
-case input
-when nil
-  $stderr.puts(USAGE)
-  exit 1
-when "-h", "--help"
-  puts USAGE
-  exit
+opts = { format: "terraform" }
+opt_parser = OptionParser.new do |opt|
+  opt.banner = "Usage: #{File.basename(__FILE__)} [options] <input>"
+  opt.on("--format FORMAT", FORMATS, "#{FORMATS.join("|")} (default: #{opts[:format]})")
 end
 
-Rollbar::Notification.new(input).generate_tf_file($stdout)
+begin
+  opt_parser.parse!(into: opts)
+rescue OptionParser::ParseError => e
+  $stderr.puts "Error: #{e.message}\n\n"
+  $stderr.puts opt_parser.help
+  exit 1
+end
+
+input = ARGV[0]
+unless input
+  $stderr.puts opt_parser.help
+  exit 1
+end
+
+notification = Rollbar::Notification.new(input)
+case opts[:format]
+when "terraform"
+  puts notification.to_tf
+when "text"
+  puts notification.to_s
+end

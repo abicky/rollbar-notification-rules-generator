@@ -4,6 +4,14 @@ module Rollbar
   class Notification
     module Condition
       class Rate
+        PERIOD_TO_TEXT = {
+          60 => "1 minute",
+          300 => "5 minutes",
+          1800 => "30 minutes",
+          3600 => "1 hour",
+          86400 => "1 day",
+        }
+
         attr_reader :type
 
         # @param count [Integer]
@@ -12,6 +20,11 @@ module Rollbar
           @type = "rate"
           @count = count
           @period = period
+        end
+
+        # @return [String]
+        def to_s
+          "At least #{@count} occurrences within #{PERIOD_TO_TEXT[@period]}"
         end
 
         def to_tf

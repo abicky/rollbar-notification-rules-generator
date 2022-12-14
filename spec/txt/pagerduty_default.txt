@@ -1,0 +1,15 @@
+# PagerDuty
+## 10^nth Occurrence
+### Rule 0
+conditions:
+  level >= error
+
+## Item Reactivated
+### Rule 0
+conditions:
+  level >= error
+
+## Item Resolved
+### Rule 0
+conditions:
+  level >= error
