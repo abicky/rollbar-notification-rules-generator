@@ -107,8 +107,8 @@ module Rollbar
         self
       end
 
-      def build_additional_conditions_set_for_downstream
       # @return [Hash{String => Array<Condition::Base>}]
+      def build_additional_conditions_set_for_subsequent_rules
         target_levels = level_condition&.target_level_values || Rollbar::Notification::Condition::Level::SUPPORTED_VALUES
 
         conditions_with_complement = @conditions.select { |c| c.respond_to?(:build_complement_condition) }

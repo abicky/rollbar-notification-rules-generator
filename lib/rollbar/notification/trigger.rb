@@ -33,6 +33,25 @@ module Rollbar
       end
 
       def to_tf
+        i = -1
+        build_mutually_exclusive_rules.flat_map do |rule|
+          rule.configs.map do |config|
+            i += 1
+            TEMPLATE.result_with_hash({
+              resource_name: "#{@channel}_#{@name}_#{i}",
+              channel: @channel,
+              trigger: @name,
+              conditions: rule.conditions,
+              config: config,
+            }).gsub(/\${{\s*var\.(\w+)\s*}}/) { @variables.fetch($1) }
+          end
+        end.join("\n")
+      end
+
+      private
+
+      # @return [Array<Rule>]
+      def build_mutually_exclusive_rules
         new_rules = []
         level_value_to_additional_conditions_set = Hash.new([])
         highest_lowest_target_level = 0
@@ -54,24 +73,12 @@ module Rollbar
           if lowest_target_level > highest_lowest_target_level
             highest_lowest_target_level = lowest_target_level
           end
-          level_value_to_additional_conditions_set.merge!(rule.build_additional_conditions_set_for_downstream) do |_, v1, v2|
+          level_value_to_additional_conditions_set.merge!(rule.build_additional_conditions_set_for_subsequent_rules) do |_, v1, v2|
             v1.product(v2).map(&:flatten)
           end
         end
 
-        i = -1
-        new_rules.flat_map do |rule|
-          rule.configs.map do |config|
-            i += 1
-            TEMPLATE.result_with_hash({
-              resource_name: "#{@channel}_#{@name}_#{i}",
-              channel: @channel,
-              trigger: @name,
-              conditions: rule.conditions,
-              config: config,
-            }).gsub(/\${{\s*var\.(\w+)\s*}}/) { @variables.fetch($1) }
-          end
-        end.join("\n")
+        new_rules
       end
     end
   end
