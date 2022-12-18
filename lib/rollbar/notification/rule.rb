@@ -120,24 +120,22 @@ module Rollbar
         conditions_with_complement = @conditions.select { |c| c.respond_to?(:build_complement_condition) }
         return {} if conditions_with_complement.empty?
 
-        if conditions_with_complement.size == 1
-          additional_conditions = [[conditions_with_complement.first.build_complement_condition]]
-        else
-          # [cond1, cond2, cond3]
-          # => [
-          #     [cond1, cond2, not-cond3],
-          #     [cond1, not-cond2, cond3],
-          #     [cond1, not-cond2, not-cond3],
-          #     [not-cond1, cond2, cond3],
-          #     [not-cond1, cond2, not-cond3],
-          #     [not-cond1, not-cond2, cond3],
-          #     [not-cond1, not-cond2, not-cond3],
-          #   ]
-          additional_conditions = conditions_with_complement.map do |condition|
-            [condition, condition.build_complement_condition]
-          end.reduce(&:product).map(&:flatten) - [conditions_with_complement]
+        # [cond1, cond2, cond3]
+        # => [
+        #     [cond1, cond2, not-cond3],
+        #     [cond1, not-cond2, cond3],
+        #     [cond1, not-cond2, not-cond3],
+        #     [not-cond1, cond2, cond3],
+        #     [not-cond1, cond2, not-cond3],
+        #     [not-cond1, not-cond2, cond3],
+        #     [not-cond1, not-cond2, not-cond3],
+        #   ]
+        first_cond, *other_conds = conditions_with_complement.map do |condition|
+          [condition, condition.build_complement_condition]
         end
-        target_levels.zip([additional_conditions].cycle).to_h
+        additional_conditions_set = first_cond.product(*other_conds) - [conditions_with_complement]
+
+        target_levels.zip([additional_conditions_set].cycle).to_h
       end
 
       private
