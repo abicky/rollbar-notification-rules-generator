@@ -17,6 +17,14 @@ module Rollbar
           @value = value
         end
 
+        # @param other [Object]
+        # @return [Boolean]
+        def ==(other)
+          self.class == other.class &&
+            type == other.type &&
+            operation == other.operation &&
+            value == other.value
+        end
         def to_tf
           <<~TF
             filters {

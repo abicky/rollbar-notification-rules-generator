@@ -40,6 +40,14 @@ module Rollbar
         super
       end
 
+      # @param other [Object]
+      # @return [Boolean]
+      def ==(other)
+        self.class == other.class &&
+          conditions == other.conditions &&
+          configs == other.configs
+      end
+
       # @return [Rule]
       def remove_redundant_conditions!
         @conditions.delete_if do |condition|
@@ -105,7 +113,7 @@ module Rollbar
         self
       end
 
-      # @return [Hash{String => Array<Condition::Base>}]
+      # @return [Hash{String => Array<Array<Condition::Base>>}]
       def build_additional_conditions_set_for_subsequent_rules
         target_levels = level_condition&.target_level_values || Rollbar::Notification::Condition::Level::SUPPORTED_VALUES
 

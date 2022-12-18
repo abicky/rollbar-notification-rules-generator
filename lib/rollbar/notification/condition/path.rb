@@ -28,6 +28,12 @@ module Rollbar
           @path = path
         end
 
+        # @param other [Object]
+        # @return [Boolean]
+        def ==(other)
+          super && path == other.path
+        end
+
         def to_tf
           <<~TF
             filters {
