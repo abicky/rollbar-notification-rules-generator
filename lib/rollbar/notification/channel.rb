@@ -4,16 +4,20 @@ require "rollbar/notification/trigger"
 module Rollbar
   class Notification
     class Channel
-      SUPPORTED_CHANNELS = %w[slack pagerduty]
+      CHANNEL_TO_TEXT = {
+        "slack" => "Slack",
+        "pagerduty" => "PagerDuty",
+      }
 
       # @param channel [String]
       # @param triggers [Hash{String => Array<Hash>}]
       # @param variables [Hash{String => String}]
       def initialize(channel, triggers, variables)
-        unless SUPPORTED_CHANNELS.include?(channel)
+        unless CHANNEL_TO_TEXT.include?(channel)
           raise ArgumentError, "Unsupported channel: #{channel}"
         end
 
+        @channel = channel
         @triggers = triggers.map do |trigger, rules|
           Rollbar::Notification::Trigger.new(channel, trigger, rules, variables)
         end
@@ -21,7 +25,7 @@ module Rollbar
 
       # @return [String]
       def to_s
-        @triggers.map(&:to_s).join.chomp
+        "# #{CHANNEL_TO_TEXT.fetch(@channel)}\n#{@triggers.map(&:to_s).join.chomp}"
       end
 
       # @param provider [String]

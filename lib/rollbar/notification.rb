@@ -5,11 +5,6 @@ require "rollbar/notification/channel"
 
 module Rollbar
   class Notification
-    CHANNEL_TO_TEXT = {
-      "slack" => "Slack",
-      "pagerduty" => "PagerDuty",
-    }
-
     # @param config_file [String]
     def initialize(config_file)
       @config = YAML.load_file(config_file)
@@ -22,7 +17,7 @@ module Rollbar
 
     # @return [String]
     def to_s
-      "# #{CHANNEL_TO_TEXT.fetch(@config.fetch("channel"))}\n#{@channel.to_s}"
+      @channel.to_s
     end
 
     # @return [String]
