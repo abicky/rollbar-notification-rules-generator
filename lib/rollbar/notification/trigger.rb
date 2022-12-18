@@ -71,13 +71,13 @@ module Rollbar
         str
       end
 
-      def to_tf(provider)
+      def to_tf(provider, namespace)
         i = -1
         build_mutually_exclusive_rules.flat_map do |rule|
           rule.configs.map do |config|
             i += 1
             TF_TEMPLATE.result_with_hash({
-              resource_name: "#{@channel}_#{@name}_#{i}",
+              resource_name: "#{namespace}#{@channel}_#{@name}_#{i}",
               provider: provider,
               channel: @channel,
               trigger: @name,

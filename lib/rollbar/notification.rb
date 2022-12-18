@@ -22,7 +22,7 @@ module Rollbar
 
     # @return [String]
     def to_tf
-      @channel.to_tf(@config["terraform_provider"])
+      @channel.to_tf(@config["terraform_provider"], @config["terraform_namespace"])
     end
   end
 end

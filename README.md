@@ -88,10 +88,12 @@ Usage: rollbar-notification-rules-generator [options] <input>
         --format FORMAT              terraform|text (default: terraform)
 ```
 
-The input file is in YAML format like the following: 
+The input file is in YAML format like the following:
 
 ```yaml
 channel: "slack" # slack or pagerduty
+# This optional value is used as the namespace of Terraform resources.
+terraform_provider: foo_
 # This optional value is used as provider meta-argument of Terraform.
 terraform_provider: rollbar.alias_value
 # You can define variables, and they are expanded with the syntax "${{ var.variable_name }}".

@@ -12,6 +12,7 @@ RSpec.describe Rollbar::Notification do
     pagerduty_default
     variables
     terraform_provider
+    terraform_namespace
   ]
 
   describe "#to_tf" do

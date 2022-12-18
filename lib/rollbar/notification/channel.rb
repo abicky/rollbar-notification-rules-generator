@@ -29,8 +29,8 @@ module Rollbar
       end
 
       # @param provider [String]
-      def to_tf(provider)
-        @triggers.map { |t| t.to_tf(provider) }.join("\n")
+      def to_tf(provider, namespace)
+        @triggers.map { |t| t.to_tf(provider, namespace) }.join("\n")
       end
     end
   end

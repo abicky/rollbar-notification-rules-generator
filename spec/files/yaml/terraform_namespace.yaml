@@ -1,0 +1,8 @@
+channel: "slack"
+terraform_namespace: foo_
+triggers:
+  new_item:
+    - conditions:
+        - type: "level"
+          operation: "gte"
+          value: "error"
