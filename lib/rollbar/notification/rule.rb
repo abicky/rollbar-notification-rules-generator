@@ -101,9 +101,7 @@ module Rollbar
       # @param new_conditions [Condition::Base, Array<Condition::Base>]
       # @return [Rule]
       def add_conditions!(new_conditions)
-        Array(new_conditions).each do |new_condition|
-          @conditions << new_condition
-        end
+        @conditions.concat(Array(new_conditions))
         self
       end
 
