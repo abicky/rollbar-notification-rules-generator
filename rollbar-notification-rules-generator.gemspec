@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = "rollbar-notification-rules-generator"
-  spec.version = "0.2.1"
+  spec.version = "0.2.2"
   spec.authors = ["abicky"]
   spec.email = ["takeshi.arabiki@gmail.com"]
 
