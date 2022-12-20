@@ -50,10 +50,20 @@ module Rollbar
 
       # @return [Rule]
       def remove_redundant_conditions!
+        @conditions.uniq!
         @conditions.delete_if do |condition|
           @conditions.any? { |other| condition.redundant_to?(other) }
         end
         self
+      end
+
+      def never_met?
+        @conditions.each.with_index.any? do |condition, i|
+          @conditions[i + 1 ..].any? do |other|
+            next false unless condition.respond_to?(:build_complement_condition)
+            other == condition.build_complement_condition
+          end
+        end
       end
 
       # @param old_condition [Condition::Base]

@@ -102,9 +102,12 @@ module Rollbar
               new_rules << new_rule
             else
               additional_conditions_set.each do |additional_conditions|
-                new_rules << new_rule.dup
-                               .add_conditions!(additional_conditions)
-                               .remove_redundant_conditions!
+                new_rule_with_additional_conds = new_rule.dup
+                  .add_conditions!(additional_conditions)
+                  .remove_redundant_conditions!
+                unless new_rule_with_additional_conds.never_met?
+                  new_rules << new_rule_with_additional_conds
+                end
               end
             end
           end
@@ -114,7 +117,15 @@ module Rollbar
             highest_lowest_target_level = lowest_target_level
           end
           level_value_to_additional_conditions_set.merge!(rule.build_additional_conditions_set_for_subsequent_rules) do |_, v1, v2|
-            v1.product(v2).map(&:flatten)
+            additional_conditions_set = v1.product(v2).map(&:flatten)
+
+            additional_conditions_set.reject! do |conditions|
+              conditions.each.with_index.any? do |condition, i|
+                conditions[i + 1 ..].any? { |other| other == condition.build_complement_condition }
+              end
+            end
+
+            additional_conditions_set
           end
         end
 

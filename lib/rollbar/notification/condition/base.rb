@@ -25,6 +25,12 @@ module Rollbar
             operation == other.operation &&
             value == other.value
         end
+        alias :eql? :==
+
+        def hash
+          [self.class, type, operation, value].hash
+        end
+
         def to_tf
           <<~TF
             filters {

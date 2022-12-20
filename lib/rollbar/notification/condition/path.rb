@@ -33,6 +33,12 @@ module Rollbar
         def ==(other)
           super && path == other.path
         end
+        alias :eql? :==
+
+        def hash
+          [self.class, type, operation, value, path].hash
+        end
+
 
         def to_tf
           <<~TF

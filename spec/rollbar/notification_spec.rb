@@ -13,6 +13,7 @@ RSpec.describe Rollbar::Notification do
     variables
     terraform_provider
     terraform_namespace
+    with_common_conditions
   ]
 
   describe "#to_tf" do
