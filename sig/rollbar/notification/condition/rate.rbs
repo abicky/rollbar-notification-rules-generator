@@ -1,0 +1,10 @@
+module Rollbar
+  class Notification
+    module Condition
+      class Rate
+        @count: Integer
+        @period: Integer
+      end
+    end
+  end
+end

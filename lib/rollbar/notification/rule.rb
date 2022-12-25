@@ -8,10 +8,14 @@ require "rollbar/notification/condition/title"
 
 module Rollbar
   class Notification
+    # @!attribute [r] conditions
+    #  @return [Array<Condition::Base, Condition::Rate>]
+    # @!attribute [r] configs
+    #  @return [Array<Hash{String => Object}>]
     class Rule
       attr_reader :conditions, :configs
 
-      # @param rule [Hash]
+      # @param rule [Hash{String => Object}]
       def initialize(rule)
         @conditions = rule.fetch("conditions").map do |condition|
           case condition.fetch("type")
@@ -34,6 +38,8 @@ module Rollbar
         @configs = rule.fetch("configs", [{}])
       end
 
+      # @param original [Rule]
+      # @return [void]
       def initialize_dup(original)
         @conditions = original.conditions.dup
         remove_instance_variable(:@level_condition)
@@ -150,6 +156,7 @@ module Rollbar
 
       private
 
+      # @return [Condition::Level, nil]
       def level_condition
         return @level_condition if defined?(@level_condition)
         @level_condition = @conditions.find { |c| c.type == "level" }

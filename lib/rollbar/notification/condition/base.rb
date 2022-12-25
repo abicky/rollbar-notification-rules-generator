@@ -3,6 +3,12 @@
 module Rollbar
   class Notification
     module Condition
+      # @!attribute [r] type
+      #  @return [String]
+      # @!attribute [r] operation
+      #  @return [String]
+      # @!attribute [r] value
+      #  @return [String]
       class Base
         attr_reader :type, :operation, :value
 
@@ -27,10 +33,12 @@ module Rollbar
         end
         alias :eql? :==
 
+        # @return [Integer]
         def hash
           [self.class, type, operation, value].hash
         end
 
+        # @return [String]
         def to_tf
           <<~TF
             filters {
@@ -41,7 +49,7 @@ module Rollbar
           TF
         end
 
-        # @param other [Base]
+        # @param other [Base, Rate]
         # @return [Boolean]
         def redundant_to?(other)
           self.class == other.class &&

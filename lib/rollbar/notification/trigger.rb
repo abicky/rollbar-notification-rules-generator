@@ -6,6 +6,7 @@ require "rollbar/notification/rule"
 module Rollbar
   class Notification
     class Trigger
+      # @return [Hash{String => String}]
       TRIGGER_TO_TEXT = {
         "deploy" => "Deploy",
         "exp_repeat_item" => "10^nth Occurrence",
@@ -17,6 +18,7 @@ module Rollbar
         "resolved_item" => "Item Resolved",
       }
 
+      # @return [ERB]
       TEXT_TEMPLATE = ERB.new(<<~TEXT)
           conditions:
           <%= conditions.map { |condition| condition.to_s.gsub(/^/, "  ") }.join("\n").chomp %><% unless config.empty? %><% max_key_len = config.keys.map(&:size).max %>
@@ -25,6 +27,7 @@ module Rollbar
           <%= config.compact.map { |key, value| '    %-*s = %s' % [max_key_len, key, value.inspect] }.join("\n") %><% end %>
       TEXT
 
+      # @return [ERB]
       TF_TEMPLATE = ERB.new(<<~TF)
           resource "rollbar_notification" "<%= resource_name %>" {<% if provider %>
             provider = <%= provider %>
@@ -43,7 +46,8 @@ module Rollbar
 
       # @param channel [String]
       # @param name [String]
-      # @param rules [Array<Hash>]
+      # @param rules [Array<Hash{String => Object}>]
+      # @param variables [Hash{String => String}]
       def initialize(channel, name, rules, variables)
         @channel = channel
         @name = name
@@ -53,6 +57,7 @@ module Rollbar
         @variables = variables
       end
 
+      # @return [String]
       def to_s
         str = +"## #{TRIGGER_TO_TEXT.fetch(@name)}\n"
         i = -1
@@ -71,6 +76,9 @@ module Rollbar
         str
       end
 
+      # @param provider [String, nil]
+      # @param namespace [String, nil]
+      # @return [String]
       def to_tf(provider, namespace)
         i = -1
         build_mutually_exclusive_rules.flat_map do |rule|

@@ -1,0 +1,8 @@
+module Rollbar
+  class Notification
+    class Channel
+      @channel: String
+      @triggers: Array[Trigger]
+    end
+  end
+end

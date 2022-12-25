@@ -4,13 +4,14 @@ require "rollbar/notification/trigger"
 module Rollbar
   class Notification
     class Channel
+      # @return [Hash{String => String}]
       CHANNEL_TO_TEXT = {
         "slack" => "Slack",
         "pagerduty" => "PagerDuty",
       }
 
       # @param channel [String]
-      # @param triggers [Hash{String => Array<Hash>}]
+      # @param triggers [Hash{String => Array<Hash{String => Object}>}]
       # @param variables [Hash{String => String}]
       def initialize(channel, triggers, variables)
         unless CHANNEL_TO_TEXT.include?(channel)
@@ -28,7 +29,9 @@ module Rollbar
         "# #{CHANNEL_TO_TEXT.fetch(@channel)}\n#{@triggers.map(&:to_s).join.chomp}"
       end
 
-      # @param provider [String]
+      # @param provider [String, nil]
+      # @param namespace [String, nil]
+      # @return [String]
       def to_tf(provider, namespace)
         @triggers.map { |t| t.to_tf(provider, namespace) }.join("\n")
       end

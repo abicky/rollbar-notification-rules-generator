@@ -1,0 +1,10 @@
+module Rollbar
+  class Notification
+    class Trigger
+      @channel: String
+      @name: String
+      @rules: Array[Rollbar::Notification::Rule]
+      @variables: Hash[String, String]
+    end
+  end
+end

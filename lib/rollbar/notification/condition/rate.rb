@@ -3,7 +3,10 @@
 module Rollbar
   class Notification
     module Condition
+      # @!attribute [r] type
+      #  @return [String]
       class Rate
+        # @return [Hash{Integer => String}]
         PERIOD_TO_TEXT = {
           60 => "1 minute",
           300 => "5 minutes",
@@ -27,6 +30,7 @@ module Rollbar
           "At least #{@count} occurrences within #{PERIOD_TO_TEXT[@period]}"
         end
 
+        # @return [String]
         def to_tf
           <<~TF
             filters {
@@ -37,7 +41,7 @@ module Rollbar
           TF
         end
 
-        # @param other [Base]
+        # @param other [Base, Rate]
         # @return [Boolean]
         def redundant_to?(other)
           false

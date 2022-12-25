@@ -23,5 +23,7 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
+    - name: Check if defs.rbs is up-to-date
+      run: bundle exec rake generate_rbs && git diff --exit-code
     - name: Run the default task
-      run: bundle exec rake
+      run: RUBYOPT='-rbundler/setup -rrbs/test/setup' RBS_TEST_TARGET='Rollbar::*' bundle exec rake

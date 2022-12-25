@@ -4,8 +4,12 @@ require "rollbar/notification/condition/base"
 module Rollbar
   class Notification
     module Condition
+      # @!attribute [r] level
+      #  @return [Integer]
       class Level < Base
+        # @return [Array<String>]
         SUPPORTED_OPERATIONS = %w[eq gte]
+        # @return [Array<String>]
         SUPPORTED_VALUES = %w[debug info warning error critical]
 
         # @param lowest_target_level [Integer]

@@ -5,7 +5,9 @@ module Rollbar
   class Notification
     module Condition
       class Title < Base
+        # @return [Array<String>]
         SUPPORTED_OPERATIONS = %w[within nwithin regex nregex]
+        # @return [Hash{String => String}]
         OPERATION_TO_TEXT = {
           "within" => "contains substring",
           "nwithin" => "does not contain substring",
@@ -23,6 +25,7 @@ module Rollbar
           %Q{#{@type} #{OPERATION_TO_TEXT[@operation]} "#{@value}"}
         end
 
+        # @return [Title]
         def build_complement_condition
           new_operation = @operation.start_with?("n") ? @operation.delete_prefix("n") : "n#{@operation}"
           self.class.new(new_operation, @value)

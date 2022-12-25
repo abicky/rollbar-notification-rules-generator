@@ -4,8 +4,12 @@ require "rollbar/notification/condition/base"
 module Rollbar
   class Notification
     module Condition
+      # @!attribute [r] path
+      #  @return [String]
       class Path < Base
+        # @return [Array<String>]
         SUPPORTED_OPERATIONS = %w[eq neq within nwithin regex nregex exists nexists]
+        # @return [Hash{String => String}]
         OPERATION_TO_TEXT = {
           "eq" => "==",
           "neq" => "!=",
@@ -35,11 +39,12 @@ module Rollbar
         end
         alias :eql? :==
 
+        # @return [Integer]
         def hash
           [self.class, type, operation, value, path].hash
         end
 
-
+        # @return [String]
         def to_tf
           <<~TF
             filters {
@@ -62,6 +67,7 @@ module Rollbar
           self.class.new(@path, new_operation, @value)
         end
 
+        # @param other [Base, Rate]
         # @return [Boolean]
         def redundant_to?(other)
           super && @path == other.path

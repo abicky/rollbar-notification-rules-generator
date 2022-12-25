@@ -5,6 +5,7 @@ module Rollbar
   class Notification
     module Condition
       class Environment < Base
+        # @return [Array<String>]
         SUPPORTED_OPERATIONS = %w[eq neq]
 
         def initialize(operation, value)

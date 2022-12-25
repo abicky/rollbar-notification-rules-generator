@@ -1,0 +1,7 @@
+module Rollbar
+  class Notification
+    class Rule
+      @level_condition: Condition::Level?
+    end
+  end
+end
