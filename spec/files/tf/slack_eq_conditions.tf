@@ -15,6 +15,9 @@ resource "rollbar_notification" "slack_new_item_0" {
       value     = "foo"
     }
   }
+  config {
+    channel = "foo"
+  }
 }
 
 resource "rollbar_notification" "slack_new_item_1" {
@@ -40,6 +43,9 @@ resource "rollbar_notification" "slack_new_item_1" {
       value     = "foo"
     }
   }
+  config {
+    channel = "bar"
+  }
 }
 
 resource "rollbar_notification" "slack_new_item_2" {
@@ -58,6 +64,9 @@ resource "rollbar_notification" "slack_new_item_2" {
       operation = "eq"
       value     = "baz"
     }
+  }
+  config {
+    channel = "baz"
   }
 }
 
@@ -84,6 +93,9 @@ resource "rollbar_notification" "slack_new_item_3" {
       value     = "bar"
     }
   }
+  config {
+    channel = "baz"
+  }
 }
 
 resource "rollbar_notification" "slack_new_item_4" {
@@ -102,6 +114,9 @@ resource "rollbar_notification" "slack_new_item_4" {
       operation = "eq"
       value     = "qux"
     }
+  }
+  config {
+    channel = "qux"
   }
 }
 
@@ -127,6 +142,9 @@ resource "rollbar_notification" "slack_new_item_5" {
       operation = "neq"
       value     = "qux"
     }
+  }
+  config {
+    channel = "quux"
   }
 }
 
@@ -158,6 +176,9 @@ resource "rollbar_notification" "slack_new_item_6" {
       operation = "neq"
       value     = "baz"
     }
+  }
+  config {
+    channel = "quux"
   }
 }
 
@@ -196,6 +217,9 @@ resource "rollbar_notification" "slack_new_item_7" {
       value     = "baz"
     }
   }
+  config {
+    channel = "quux"
+  }
 }
 
 resource "rollbar_notification" "slack_occurrence_rate_0" {
@@ -219,6 +243,9 @@ resource "rollbar_notification" "slack_occurrence_rate_0" {
       operation = "eq"
       value     = "foo"
     }
+  }
+  config {
+    channel = "foo"
   }
 }
 
@@ -249,5 +276,8 @@ resource "rollbar_notification" "slack_occurrence_rate_1" {
       operation = "neq"
       value     = "foo"
     }
+  }
+  config {
+    channel = "bar"
   }
 }

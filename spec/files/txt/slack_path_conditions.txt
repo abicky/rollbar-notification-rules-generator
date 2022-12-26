@@ -5,17 +5,26 @@ conditions:
   level >= error
   path body.body.trace.extra.a contains substring "foo"
 
+config:
+    channel = "foo"
+
 ### Rule 1
 conditions:
   level == critical
   path body.body.trace.extra.b contains substring "bar"
   path body.body.trace.extra.a does not contain substring "foo"
 
+config:
+    channel = "bar"
+
 ### Rule 2
 conditions:
   level == error
   path body.body.trace.extra.a contains substring "baz"
   path body.body.trace.extra.a does not contain substring "foo"
+
+config:
+    channel = "baz"
 
 ### Rule 3
 conditions:
@@ -24,16 +33,25 @@ conditions:
   path body.body.trace.extra.a does not contain substring "foo"
   path body.body.trace.extra.b does not contain substring "bar"
 
+config:
+    channel = "baz"
+
 ### Rule 4
 conditions:
   level == warning
   path body.body.trace.extra.c contains substring "qux"
+
+config:
+    channel = "qux"
 
 ### Rule 5
 conditions:
   level == warning
   path body.body.trace.extra.d contains substring "quux"
   path body.body.trace.extra.c does not contain substring "qux"
+
+config:
+    channel = "quux"
 
 ### Rule 6
 conditions:
@@ -42,6 +60,9 @@ conditions:
   path body.body.trace.extra.a does not contain substring "foo"
   path body.body.trace.extra.a does not contain substring "baz"
 
+config:
+    channel = "quux"
+
 ### Rule 7
 conditions:
   level == critical
@@ -49,3 +70,6 @@ conditions:
   path body.body.trace.extra.a does not contain substring "foo"
   path body.body.trace.extra.b does not contain substring "bar"
   path body.body.trace.extra.a does not contain substring "baz"
+
+config:
+    channel = "quux"

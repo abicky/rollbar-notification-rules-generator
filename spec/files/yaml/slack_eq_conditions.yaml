@@ -9,6 +9,8 @@ triggers:
           path: "body.body.trace.extra.a"
           operation: "eq"
           value: "foo"
+      configs:
+        - channel: "foo"
     - conditions:
         - type: "level"
           operation: "eq"
@@ -17,6 +19,8 @@ triggers:
           path: "body.body.trace.extra.b"
           operation: "eq"
           value: "bar"
+      configs:
+        - channel: "bar"
     - conditions:
         - type: "level"
           operation: "gte"
@@ -25,6 +29,8 @@ triggers:
           path: "body.body.trace.extra.a"
           operation: "eq"
           value: "baz"
+      configs:
+        - channel: "baz"
     - conditions:
         - type: "level"
           operation: "eq"
@@ -33,6 +39,8 @@ triggers:
           path: "body.body.trace.extra.c"
           operation: "eq"
           value: "qux"
+      configs:
+        - channel: "qux"
     - conditions:
         - type: "level"
           operation: "gte"
@@ -41,6 +49,8 @@ triggers:
           path: "body.body.trace.extra.d"
           operation: "eq"
           value: "quux"
+      configs:
+        - channel: "quux"
   occurrence_rate:
     - conditions:
         - type: "rate"
@@ -53,6 +63,8 @@ triggers:
           path: "body.body.trace.extra.a"
           operation: "eq"
           value: "foo"
+      configs:
+        - channel: "foo"
     - conditions:
         - type: "rate"
           count: 10
@@ -64,3 +76,5 @@ triggers:
           path: "body.body.trace.extra.b"
           operation: "eq"
           value: "bar"
+      configs:
+        - channel: "bar"

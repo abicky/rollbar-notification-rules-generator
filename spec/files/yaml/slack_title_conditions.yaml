@@ -8,6 +8,8 @@ triggers:
         - type: "title"
           operation: "within"
           value: "foo"
+      configs:
+        - channel: "foo"
     - conditions:
         - type: "level"
           operation: "eq"
@@ -15,6 +17,8 @@ triggers:
         - type: "title"
           operation: "within"
           value: "bar"
+      configs:
+        - channel: "bar"
     - conditions:
         - type: "level"
           operation: "gte"
@@ -22,6 +26,8 @@ triggers:
         - type: "title"
           operation: "within"
           value: "baz"
+      configs:
+        - channel: "baz"
     - conditions:
         - type: "level"
           operation: "eq"
@@ -29,6 +35,8 @@ triggers:
         - type: "title"
           operation: "within"
           value: "qux"
+      configs:
+        - channel: "qux"
     - conditions:
         - type: "level"
           operation: "gte"
@@ -36,7 +44,11 @@ triggers:
         - type: "title"
           operation: "within"
           value: "quux"
+      configs:
+        - channel: "quux"
     - conditions:
         - type: "title"
           operation: "within"
           value: "corge"
+      configs:
+        - channel: "corge"

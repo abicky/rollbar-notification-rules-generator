@@ -6,11 +6,17 @@ conditions:
   path body.body.trace.extra.a contains substring "foo"
   path body.body.trace.extra.b contains substring "bar"
 
+config:
+    channel = "foo-and-bar"
+
 ### Rule 1
 conditions:
   level >= error
   path body.body.trace.extra.a contains substring "foo"
   path body.body.trace.extra.b does not contain substring "bar"
+
+config:
+    channel = "foo"
 
 ### Rule 2
 conditions:

@@ -14,6 +14,9 @@ resource "rollbar_notification" "slack_new_item_0" {
       value     = "foo"
     }
   }
+  config {
+    channel = "foo"
+  }
 }
 
 resource "rollbar_notification" "slack_new_item_1" {
@@ -37,6 +40,9 @@ resource "rollbar_notification" "slack_new_item_1" {
       value     = "foo"
     }
   }
+  config {
+    channel = "bar"
+  }
 }
 
 resource "rollbar_notification" "slack_new_item_2" {
@@ -59,6 +65,9 @@ resource "rollbar_notification" "slack_new_item_2" {
       operation = "nwithin"
       value     = "foo"
     }
+  }
+  config {
+    channel = "baz"
   }
 }
 
@@ -88,6 +97,9 @@ resource "rollbar_notification" "slack_new_item_3" {
       value     = "bar"
     }
   }
+  config {
+    channel = "baz"
+  }
 }
 
 resource "rollbar_notification" "slack_new_item_4" {
@@ -105,6 +117,9 @@ resource "rollbar_notification" "slack_new_item_4" {
       operation = "within"
       value     = "qux"
     }
+  }
+  config {
+    channel = "qux"
   }
 }
 
@@ -128,6 +143,9 @@ resource "rollbar_notification" "slack_new_item_5" {
       operation = "nwithin"
       value     = "qux"
     }
+  }
+  config {
+    channel = "quux"
   }
 }
 
@@ -156,6 +174,9 @@ resource "rollbar_notification" "slack_new_item_6" {
       operation = "nwithin"
       value     = "baz"
     }
+  }
+  config {
+    channel = "quux"
   }
 }
 
@@ -190,6 +211,9 @@ resource "rollbar_notification" "slack_new_item_7" {
       value     = "baz"
     }
   }
+  config {
+    channel = "quux"
+  }
 }
 
 resource "rollbar_notification" "slack_new_item_8" {
@@ -208,6 +232,9 @@ resource "rollbar_notification" "slack_new_item_8" {
       value     = "debug"
     }
   }
+  config {
+    channel = "corge"
+  }
 }
 
 resource "rollbar_notification" "slack_new_item_9" {
@@ -225,6 +252,9 @@ resource "rollbar_notification" "slack_new_item_9" {
       operation = "eq"
       value     = "info"
     }
+  }
+  config {
+    channel = "corge"
   }
 }
 
@@ -253,6 +283,9 @@ resource "rollbar_notification" "slack_new_item_10" {
       operation = "nwithin"
       value     = "quux"
     }
+  }
+  config {
+    channel = "corge"
   }
 }
 
@@ -286,6 +319,9 @@ resource "rollbar_notification" "slack_new_item_11" {
       operation = "nwithin"
       value     = "quux"
     }
+  }
+  config {
+    channel = "corge"
   }
 }
 
@@ -324,5 +360,8 @@ resource "rollbar_notification" "slack_new_item_12" {
       operation = "nwithin"
       value     = "quux"
     }
+  }
+  config {
+    channel = "corge"
   }
 }

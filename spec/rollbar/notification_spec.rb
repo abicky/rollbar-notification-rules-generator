@@ -8,7 +8,7 @@ RSpec.describe Rollbar::Notification do
     slack_multiple_conditions
     slack_eq_conditions
     slack_environment_conditions
-    slack_conditions_with_configs
+    slack_conditions_with_multi_configs
     pagerduty_default
     variables
     terraform_provider

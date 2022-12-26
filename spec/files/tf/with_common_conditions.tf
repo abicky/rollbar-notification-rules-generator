@@ -21,6 +21,9 @@ resource "rollbar_notification" "slack_new_item_0" {
       value     = "bar"
     }
   }
+  config {
+    channel = "foo-and-bar"
+  }
 }
 
 resource "rollbar_notification" "slack_new_item_1" {
@@ -45,6 +48,9 @@ resource "rollbar_notification" "slack_new_item_1" {
       operation = "nwithin"
       value     = "bar"
     }
+  }
+  config {
+    channel = "foo"
   }
 }
 

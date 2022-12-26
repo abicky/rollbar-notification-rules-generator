@@ -15,6 +15,9 @@ resource "rollbar_notification" "slack_new_item_0" {
       value     = "foo"
     }
   }
+  config {
+    channel = "foo"
+  }
 }
 
 resource "rollbar_notification" "slack_new_item_1" {
@@ -40,6 +43,9 @@ resource "rollbar_notification" "slack_new_item_1" {
       value     = "foo"
     }
   }
+  config {
+    channel = "bar"
+  }
 }
 
 resource "rollbar_notification" "slack_new_item_2" {
@@ -64,6 +70,9 @@ resource "rollbar_notification" "slack_new_item_2" {
       operation = "nwithin"
       value     = "foo"
     }
+  }
+  config {
+    channel = "baz"
   }
 }
 
@@ -96,6 +105,9 @@ resource "rollbar_notification" "slack_new_item_3" {
       value     = "bar"
     }
   }
+  config {
+    channel = "baz"
+  }
 }
 
 resource "rollbar_notification" "slack_new_item_4" {
@@ -114,6 +126,9 @@ resource "rollbar_notification" "slack_new_item_4" {
       operation = "within"
       value     = "qux"
     }
+  }
+  config {
+    channel = "qux"
   }
 }
 
@@ -139,6 +154,9 @@ resource "rollbar_notification" "slack_new_item_5" {
       operation = "nwithin"
       value     = "qux"
     }
+  }
+  config {
+    channel = "quux"
   }
 }
 
@@ -170,6 +188,9 @@ resource "rollbar_notification" "slack_new_item_6" {
       operation = "nwithin"
       value     = "baz"
     }
+  }
+  config {
+    channel = "quux"
   }
 }
 
@@ -207,5 +228,8 @@ resource "rollbar_notification" "slack_new_item_7" {
       operation = "nwithin"
       value     = "baz"
     }
+  }
+  config {
+    channel = "quux"
   }
 }

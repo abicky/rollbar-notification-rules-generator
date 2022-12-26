@@ -5,16 +5,25 @@ conditions:
   level >= error
   path body.body.trace.extra.a == "foo"
 
+config:
+    channel = "foo"
+
 ### Rule 1
 conditions:
   level == critical
   path body.body.trace.extra.b == "bar"
   path body.body.trace.extra.a != "foo"
 
+config:
+    channel = "bar"
+
 ### Rule 2
 conditions:
   level == error
   path body.body.trace.extra.a == "baz"
+
+config:
+    channel = "baz"
 
 ### Rule 3
 conditions:
@@ -22,10 +31,16 @@ conditions:
   path body.body.trace.extra.a == "baz"
   path body.body.trace.extra.b != "bar"
 
+config:
+    channel = "baz"
+
 ### Rule 4
 conditions:
   level == warning
   path body.body.trace.extra.c == "qux"
+
+config:
+    channel = "qux"
 
 ### Rule 5
 conditions:
@@ -33,12 +48,18 @@ conditions:
   path body.body.trace.extra.d == "quux"
   path body.body.trace.extra.c != "qux"
 
+config:
+    channel = "quux"
+
 ### Rule 6
 conditions:
   level == error
   path body.body.trace.extra.d == "quux"
   path body.body.trace.extra.a != "foo"
   path body.body.trace.extra.a != "baz"
+
+config:
+    channel = "quux"
 
 ### Rule 7
 conditions:
@@ -48,6 +69,9 @@ conditions:
   path body.body.trace.extra.b != "bar"
   path body.body.trace.extra.a != "baz"
 
+config:
+    channel = "quux"
+
 ## High Occurrence Rate
 ### Rule 0
 conditions:
@@ -55,9 +79,15 @@ conditions:
   level >= error
   path body.body.trace.extra.a == "foo"
 
+config:
+    channel = "foo"
+
 ### Rule 1
 conditions:
   At least 10 occurrences within 5 minutes
   level == critical
   path body.body.trace.extra.b == "bar"
   path body.body.trace.extra.a != "foo"
+
+config:
+    channel = "bar"

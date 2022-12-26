@@ -13,6 +13,8 @@ triggers:
           path: "body.body.trace.extra.b"
           operation: "within"
           value: "bar"
+      configs:
+        - channel: "foo-and-bar"
     - conditions:
         - type: "level"
           operation: "gte"
@@ -21,6 +23,8 @@ triggers:
           path: "body.body.trace.extra.a"
           operation: "within"
           value: "foo"
+      configs:
+        - channel: "foo"
     - conditions:
         - type: "level"
           operation: "gte"

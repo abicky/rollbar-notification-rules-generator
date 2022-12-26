@@ -5,17 +5,26 @@ conditions:
   level >= error
   title contains substring "foo"
 
+config:
+    channel = "foo"
+
 ### Rule 1
 conditions:
   level == critical
   title contains substring "bar"
   title does not contain substring "foo"
 
+config:
+    channel = "bar"
+
 ### Rule 2
 conditions:
   level == error
   title contains substring "baz"
   title does not contain substring "foo"
+
+config:
+    channel = "baz"
 
 ### Rule 3
 conditions:
@@ -24,10 +33,16 @@ conditions:
   title does not contain substring "foo"
   title does not contain substring "bar"
 
+config:
+    channel = "baz"
+
 ### Rule 4
 conditions:
   level == warning
   title contains substring "qux"
+
+config:
+    channel = "qux"
 
 ### Rule 5
 conditions:
@@ -35,12 +50,18 @@ conditions:
   title contains substring "quux"
   title does not contain substring "qux"
 
+config:
+    channel = "quux"
+
 ### Rule 6
 conditions:
   level == error
   title contains substring "quux"
   title does not contain substring "foo"
   title does not contain substring "baz"
+
+config:
+    channel = "quux"
 
 ### Rule 7
 conditions:
@@ -50,15 +71,24 @@ conditions:
   title does not contain substring "bar"
   title does not contain substring "baz"
 
+config:
+    channel = "quux"
+
 ### Rule 8
 conditions:
   title contains substring "corge"
   level == debug
 
+config:
+    channel = "corge"
+
 ### Rule 9
 conditions:
   title contains substring "corge"
   level == info
+
+config:
+    channel = "corge"
 
 ### Rule 10
 conditions:
@@ -66,6 +96,9 @@ conditions:
   level == warning
   title does not contain substring "qux"
   title does not contain substring "quux"
+
+config:
+    channel = "corge"
 
 ### Rule 11
 conditions:
@@ -75,6 +108,9 @@ conditions:
   title does not contain substring "baz"
   title does not contain substring "quux"
 
+config:
+    channel = "corge"
+
 ### Rule 12
 conditions:
   title contains substring "corge"
@@ -83,3 +119,6 @@ conditions:
   title does not contain substring "bar"
   title does not contain substring "baz"
   title does not contain substring "quux"
+
+config:
+    channel = "corge"

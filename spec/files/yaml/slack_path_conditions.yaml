@@ -9,6 +9,8 @@ triggers:
           path: "body.body.trace.extra.a"
           operation: "within"
           value: "foo"
+      configs:
+        - channel: "foo"
     - conditions:
         - type: "level"
           operation: "eq"
@@ -17,6 +19,8 @@ triggers:
           path: "body.body.trace.extra.b"
           operation: "within"
           value: "bar"
+      configs:
+        - channel: "bar"
     - conditions:
         - type: "level"
           operation: "gte"
@@ -25,6 +29,8 @@ triggers:
           path: "body.body.trace.extra.a"
           operation: "within"
           value: "baz"
+      configs:
+        - channel: "baz"
     - conditions:
         - type: "level"
           operation: "eq"
@@ -33,6 +39,8 @@ triggers:
           path: "body.body.trace.extra.c"
           operation: "within"
           value: "qux"
+      configs:
+        - channel: "qux"
     - conditions:
         - type: "level"
           operation: "gte"
@@ -41,3 +49,5 @@ triggers:
           path: "body.body.trace.extra.d"
           operation: "within"
           value: "quux"
+      configs:
+        - channel: "quux"
