@@ -16,10 +16,3 @@ conditions:
 conditions:
   level >= error
   path body.body.trace.extra.a does not contain substring "foo"
-  path body.body.trace.extra.b contains substring "bar"
-
-### Rule 3
-conditions:
-  level >= error
-  path body.body.trace.extra.a does not contain substring "foo"
-  path body.body.trace.extra.b does not contain substring "bar"

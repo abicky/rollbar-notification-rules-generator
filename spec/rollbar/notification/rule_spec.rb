@@ -147,38 +147,15 @@ RSpec.describe Rollbar::Notification::Rule do
       it do
         conditions_set = [
           [
-            Rollbar::Notification::Condition::Title.new("within", "foo"),
-            Rollbar::Notification::Condition::Title.new("within", "bar"),
-            Rollbar::Notification::Condition::Title.new("nwithin", "baz")
+            Rollbar::Notification::Condition::Title.new("nwithin", "foo"),
           ],
           [
             Rollbar::Notification::Condition::Title.new("within", "foo"),
             Rollbar::Notification::Condition::Title.new("nwithin", "bar"),
-            Rollbar::Notification::Condition::Title.new("within", "baz")
           ],
           [
             Rollbar::Notification::Condition::Title.new("within", "foo"),
-            Rollbar::Notification::Condition::Title.new("nwithin", "bar"),
-            Rollbar::Notification::Condition::Title.new("nwithin", "baz")
-          ],
-          [
-            Rollbar::Notification::Condition::Title.new("nwithin", "foo"),
             Rollbar::Notification::Condition::Title.new("within", "bar"),
-            Rollbar::Notification::Condition::Title.new("within", "baz")
-          ],
-          [
-            Rollbar::Notification::Condition::Title.new("nwithin", "foo"),
-            Rollbar::Notification::Condition::Title.new("within", "bar"),
-            Rollbar::Notification::Condition::Title.new("nwithin", "baz")
-          ],
-          [
-            Rollbar::Notification::Condition::Title.new("nwithin", "foo"),
-            Rollbar::Notification::Condition::Title.new("nwithin", "bar"),
-            Rollbar::Notification::Condition::Title.new("within", "baz")
-          ],
-          [
-            Rollbar::Notification::Condition::Title.new("nwithin", "foo"),
-            Rollbar::Notification::Condition::Title.new("nwithin", "bar"),
             Rollbar::Notification::Condition::Title.new("nwithin", "baz")
           ],
         ]

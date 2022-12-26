@@ -143,20 +143,24 @@ module Rollbar
         conditions_with_complement = @conditions.select { |c| c.respond_to?(:build_complement_condition) }
         return {} if conditions_with_complement.empty?
 
+        # Build set of conditions for the complement condition
+        # e.g.
+        # [cond1, cond2]
+        # => [[not-cond1], [cond1, not-cond2]]
+        #
         # [cond1, cond2, cond3]
+        # => [[not-cond1], [cond1, not-cond2], [cond1, cond2, not-cond3]]
+        #
+        # [cond1, cond2, cond3, cond4]
         # => [
-        #     [cond1, cond2, not-cond3],
-        #     [cond1, not-cond2, cond3],
-        #     [cond1, not-cond2, not-cond3],
-        #     [not-cond1, cond2, cond3],
-        #     [not-cond1, cond2, not-cond3],
-        #     [not-cond1, not-cond2, cond3],
-        #     [not-cond1, not-cond2, not-cond3],
-        #   ]
-        first_cond, *other_conds = conditions_with_complement.map do |condition|
-          [condition, condition.build_complement_condition]
+        #   [not-cond1],
+        #   [cond1, not-cond2],
+        #   [cond1, cond2, not-cond3],
+        #   [cond1, cond2, cond3, not-cond4],
+        # ]
+        additional_conditions_set = conditions_with_complement.map.with_index do |cond, i|
+          [*conditions_with_complement[... i], cond.build_complement_condition]
         end
-        additional_conditions_set = first_cond.product(*other_conds) - [conditions_with_complement]
 
         target_levels.zip([additional_conditions_set].cycle).to_h
       end
