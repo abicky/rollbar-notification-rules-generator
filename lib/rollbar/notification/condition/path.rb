@@ -20,6 +20,8 @@ module Rollbar
           "exists" => "exists",
           "nexists" => "does not exist",
         }
+        # @return [Array<String>]
+        OPERATIONS_MET_ONLY_IF_PATH_EXISTS = %w[eq within nwithin regex nregex exists]
 
         attr_reader :path
 
@@ -44,6 +46,16 @@ module Rollbar
           [self.class, type, operation, value, path].hash
         end
 
+        # @param other [Base, Rate]
+        # @return [Boolean]
+        def never_met_with?(other)
+          return false if self.class != other.class || path != other.path
+          return true if operation == other.inverse_operation && value == other.value
+          return true if operation == "nexists" && OPERATIONS_MET_ONLY_IF_PATH_EXISTS.include?(other.operation)
+          return true if other.operation == "nexists" && OPERATIONS_MET_ONLY_IF_PATH_EXISTS.include?(operation)
+          false
+        end
+
         # @return [String]
         def to_tf
           <<~TF
@@ -58,19 +70,33 @@ module Rollbar
 
         # @return [String]
         def to_s
-          %Q{#{@type} #{@path} #{OPERATION_TO_TEXT[@operation]} "#{@value}"}
+          s = +%Q{#{@type} #{@path} #{OPERATION_TO_TEXT[@operation]}}
+          s << %Q{ "#{@value}"} unless @operation.end_with?("exists")
+          s
         end
 
-        # @return [Path]
-        def build_complement_condition
-          new_operation = @operation.start_with?("n") ? @operation.delete_prefix("n") : "n#{@operation}"
-          self.class.new(@path, new_operation, @value)
+        # @return [Array<Path>]
+        def build_complement_conditions
+          complement_cond = self.class.new(@path, inverse_operation, @value)
+          case @operation
+          when "within", "nwithin", "regex", "nregex"
+            # Neither "nwithin" nor "nregex" matches the condition if the path doesn't exist,
+            # so the complement condition of these operations equals (`complement_cond` OR nexists)
+            [complement_cond, self.class.new(@path, "nexists", "")]
+          else
+            [complement_cond]
+          end
         end
 
         # @param other [Base, Rate]
         # @return [Boolean]
         def redundant_to?(other)
           super && @path == other.path
+        end
+
+        # @return [String]
+        def inverse_operation
+          @operation.start_with?("n") ? @operation.delete_prefix("n") : "n#{@operation}"
         end
       end
     end

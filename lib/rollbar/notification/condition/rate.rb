@@ -25,6 +25,12 @@ module Rollbar
           @period = period
         end
 
+        # @param other [Base, Rate]
+        # @return [false]
+        def never_met_with?(other)
+          false
+        end
+
         # @return [String]
         def to_s
           "At least #{@count} occurrences within #{PERIOD_TO_TEXT[@period]}"

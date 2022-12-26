@@ -38,6 +38,12 @@ module Rollbar
           [self.class, type, operation, value].hash
         end
 
+        # @param other [Base, Rate]
+        # @return [false]
+        def never_met_with?(other)
+          false
+        end
+
         # @return [String]
         def to_tf
           <<~TF

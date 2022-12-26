@@ -19,8 +19,7 @@ module Rollbar
         conditions.each.with_index.any? do |condition, i|
           # NOTE: `@conditions[i + 1 ..]` cannot be nil but `|| []` is required to suppress the warning "'any?' may produce 'NoMethodError'"
           (conditions[i + 1 ..] || []).any? do |other|
-            next false unless condition.respond_to?(:build_complement_condition)
-            other == condition.build_complement_condition
+            condition.never_met_with?(other)
           end
         end
       end
@@ -140,7 +139,7 @@ module Rollbar
       def build_additional_conditions_set_for_subsequent_rules
         target_levels = level_condition&.target_level_values || Rollbar::Notification::Condition::Level::SUPPORTED_VALUES
 
-        conditions_with_complement = @conditions.select { |c| c.respond_to?(:build_complement_condition) }
+        conditions_with_complement = @conditions.select { |c| c.respond_to?(:build_complement_conditions) }
         return {} if conditions_with_complement.empty?
 
         # Build set of conditions for the complement condition
@@ -158,8 +157,10 @@ module Rollbar
         #   [cond1, cond2, not-cond3],
         #   [cond1, cond2, cond3, not-cond4],
         # ]
-        additional_conditions_set = conditions_with_complement.map.with_index do |cond, i|
-          [*conditions_with_complement[... i], cond.build_complement_condition]
+        additional_conditions_set = conditions_with_complement.flat_map.with_index do |cond, i|
+          cond.build_complement_conditions.map do |complement_cond|
+            [*conditions_with_complement[... i], complement_cond]
+          end
         end
 
         target_levels.zip([additional_conditions_set].cycle).to_h

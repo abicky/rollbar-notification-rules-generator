@@ -5,8 +5,7 @@ triggers:
         - type: "level"
           operation: "gte"
           value: "error"
-        - type: "path"
-          path: "body.body.trace.extra.a"
+        - type: "title"
           operation: "within"
           value: "foo"
       configs:
@@ -17,8 +16,7 @@ triggers:
         - type: "level"
           operation: "gte"
           value: "error"
-        - type: "path"
-          path: "body.body.trace.extra.b"
+        - type: "title"
           operation: "within"
           value: "bar"
       configs:

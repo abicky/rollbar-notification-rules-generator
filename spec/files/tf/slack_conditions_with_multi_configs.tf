@@ -9,8 +9,7 @@ resource "rollbar_notification" "slack_new_item_0" {
       value     = "error"
     }
     filters {
-      type      = "path"
-      path      = "body.body.trace.extra.a"
+      type      = "title"
       operation = "within"
       value     = "foo"
     }
@@ -33,14 +32,12 @@ resource "rollbar_notification" "slack_new_item_1" {
       value     = "error"
     }
     filters {
-      type      = "path"
-      path      = "body.body.trace.extra.b"
+      type      = "title"
       operation = "within"
       value     = "bar"
     }
     filters {
-      type      = "path"
-      path      = "body.body.trace.extra.a"
+      type      = "title"
       operation = "nwithin"
       value     = "foo"
     }
@@ -63,14 +60,12 @@ resource "rollbar_notification" "slack_new_item_2" {
       value     = "error"
     }
     filters {
-      type      = "path"
-      path      = "body.body.trace.extra.b"
+      type      = "title"
       operation = "within"
       value     = "bar"
     }
     filters {
-      type      = "path"
-      path      = "body.body.trace.extra.a"
+      type      = "title"
       operation = "nwithin"
       value     = "foo"
     }

@@ -21,4 +21,18 @@ config:
 ### Rule 2
 conditions:
   level >= error
+  path body.body.trace.extra.a contains substring "foo"
+  path body.body.trace.extra.b does not exist
+
+config:
+    channel = "foo"
+
+### Rule 3
+conditions:
+  level >= error
   path body.body.trace.extra.a does not contain substring "foo"
+
+### Rule 4
+conditions:
+  level >= error
+  path body.body.trace.extra.a does not exist

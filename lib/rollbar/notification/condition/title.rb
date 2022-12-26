@@ -20,15 +20,22 @@ module Rollbar
           @type = "title"
         end
 
+        # @param other [Base, Rate]
+        # @return [Boolean]
+        def never_met_with?(other)
+          self.class == other.class &&
+            self == other.build_complement_conditions.first
+        end
+
         # @return [String]
         def to_s
           %Q{#{@type} #{OPERATION_TO_TEXT[@operation]} "#{@value}"}
         end
 
-        # @return [Title]
-        def build_complement_condition
+        # @return [Array<Title>]
+        def build_complement_conditions
           new_operation = @operation.start_with?("n") ? @operation.delete_prefix("n") : "n#{@operation}"
-          self.class.new(new_operation, @value)
+          [self.class.new(new_operation, @value)]
         end
       end
     end

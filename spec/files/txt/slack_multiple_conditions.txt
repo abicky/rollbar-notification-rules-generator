@@ -24,27 +24,73 @@ conditions:
 ### Rule 3
 conditions:
   level >= error
-  title does not contain substring "foo"
-  title does not contain substring "bar"
+  title contains substring "bar"
+  path body.body.trace.extra.b contains substring "bar"
+  title contains substring "foo"
+  path body.body.trace.extra.a does not exist
 
 ### Rule 4
 conditions:
   level >= error
   title does not contain substring "foo"
+  title does not contain substring "bar"
+
+### Rule 5
+conditions:
+  level >= error
+  title does not contain substring "foo"
   title contains substring "bar"
   path body.body.trace.extra.b does not contain substring "bar"
 
-### Rule 5
+### Rule 6
+conditions:
+  level >= error
+  title does not contain substring "foo"
+  title contains substring "bar"
+  path body.body.trace.extra.b does not exist
+
+### Rule 7
 conditions:
   level >= error
   title contains substring "foo"
   path body.body.trace.extra.a does not contain substring "foo"
   title does not contain substring "bar"
 
-### Rule 6
+### Rule 8
 conditions:
   level >= error
   title contains substring "foo"
   path body.body.trace.extra.a does not contain substring "foo"
   title contains substring "bar"
   path body.body.trace.extra.b does not contain substring "bar"
+
+### Rule 9
+conditions:
+  level >= error
+  title contains substring "foo"
+  path body.body.trace.extra.a does not contain substring "foo"
+  title contains substring "bar"
+  path body.body.trace.extra.b does not exist
+
+### Rule 10
+conditions:
+  level >= error
+  title contains substring "foo"
+  path body.body.trace.extra.a does not exist
+  title does not contain substring "bar"
+
+### Rule 11
+conditions:
+  level >= error
+  title contains substring "foo"
+  path body.body.trace.extra.a does not exist
+  title contains substring "bar"
+  path body.body.trace.extra.b does not contain substring "bar"
+
+### Rule 12
+conditions:
+  level >= error
+  title contains substring "foo"
+  path body.body.trace.extra.a does not exist
+  title contains substring "bar"
+  path body.body.trace.extra.b does not exist

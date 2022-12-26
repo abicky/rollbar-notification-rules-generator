@@ -13,14 +13,21 @@ module Rollbar
           @type = "environment"
         end
 
+        # @param other [Base, Rate]
+        # @return [Boolean]
+        def never_met_with?(other)
+          self.class == other.class &&
+            self == other.build_complement_conditions.first
+        end
+
         # @return [String]
         def to_s
           "#{@type} #{@operation == "eq" ? "==" : "!="} #{@value}"
         end
 
-        # @return [Environment]
-        def build_complement_condition
-          self.class.new(@operation == "eq" ? "neq" : "eq", @value)
+        # @return [Array<Environment>]
+        def build_complement_conditions
+          [self.class.new(@operation == "eq" ? "neq" : "eq", @value)]
         end
       end
     end

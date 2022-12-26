@@ -132,6 +132,9 @@ module Rollbar
 
         def hash: () -> Integer
 
+        # _@param_ `other`
+        def never_met_with?: ((Base | Rate) other) -> bool
+
         def to_tf: () -> String
 
         # _@param_ `other`
@@ -149,6 +152,7 @@ module Rollbar
       class Path < Rollbar::Notification::Condition::Base
         SUPPORTED_OPERATIONS: ::Array[String]
         OPERATION_TO_TEXT: ::Hash[String, String]
+        OPERATIONS_MET_ONLY_IF_PATH_EXISTS: ::Array[String]
 
         # _@param_ `path`
         # 
@@ -162,14 +166,19 @@ module Rollbar
 
         def hash: () -> Integer
 
+        # _@param_ `other`
+        def never_met_with?: ((Base | Rate) other) -> bool
+
         def to_tf: () -> String
 
         def to_s: () -> String
 
-        def build_complement_condition: () -> Path
+        def build_complement_conditions: () -> ::Array[Path]
 
         # _@param_ `other`
         def redundant_to?: ((Base | Rate) other) -> bool
+
+        def inverse_operation: () -> String
 
         attr_reader path: String
       end
@@ -183,6 +192,9 @@ module Rollbar
         # 
         # _@param_ `period`
         def initialize: (Integer count, Integer period) -> void
+
+        # _@param_ `other`
+        def never_met_with?: ((Base | Rate) other) -> bool
 
         def to_s: () -> String
 
@@ -221,9 +233,12 @@ module Rollbar
 
         def initialize: (String operation, String value) -> void
 
+        # _@param_ `other`
+        def never_met_with?: ((Base | Rate) other) -> bool
+
         def to_s: () -> String
 
-        def build_complement_condition: () -> Title
+        def build_complement_conditions: () -> ::Array[Title]
       end
 
       class Framework < Rollbar::Notification::Condition::Base
@@ -239,9 +254,12 @@ module Rollbar
 
         def initialize: (String operation, String value) -> void
 
+        # _@param_ `other`
+        def never_met_with?: ((Base | Rate) other) -> bool
+
         def to_s: () -> String
 
-        def build_complement_condition: () -> Environment
+        def build_complement_conditions: () -> ::Array[Environment]
       end
     end
   end
