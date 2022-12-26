@@ -13,6 +13,18 @@ module Rollbar
     # @!attribute [r] configs
     #  @return [Array<Hash{String => Object}>]
     class Rule
+      # @param conditions [Array<Condition::Base, Condition::Rate>]
+      # @return [Boolean]
+      def self.never_met?(conditions)
+        conditions.each.with_index.any? do |condition, i|
+          # NOTE: `@conditions[i + 1 ..]` cannot be nil but `|| []` is required to suppress the warning "'any?' may produce 'NoMethodError'"
+          (conditions[i + 1 ..] || []).any? do |other|
+            next false unless condition.respond_to?(:build_complement_condition)
+            other == condition.build_complement_condition
+          end
+        end
+      end
+
       attr_reader :conditions, :configs
 
       # @param rule [Hash{String => Array<Object>}]
@@ -64,13 +76,7 @@ module Rollbar
       end
 
       def never_met?
-        @conditions.each.with_index.any? do |condition, i|
-          # NOTE: `@conditions[i + 1 ..]` cannot be nil but `|| []` is required to suppress the warning "'any?' may produce 'NoMethodError'"
-          (@conditions[i + 1 ..] || []).any? do |other|
-            next false unless condition.respond_to?(:build_complement_condition)
-            other == condition.build_complement_condition
-          end
-        end
+        self.class.never_met?(@conditions)
       end
 
       # @param old_condition [Condition::Base]

@@ -13,6 +13,9 @@ module Rollbar
     # @!attribute [r] configs
     #  @return [Array<Hash{String => Object}>]
     class Rule
+      # _@param_ `conditions`
+      def self.never_met?: (::Array[(Condition::Base | Condition::Rate)] conditions) -> bool
+
       # _@param_ `rule`
       def initialize: (::Hash[String, ::Array[Object]] rule) -> void
 

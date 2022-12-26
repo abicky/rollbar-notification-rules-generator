@@ -125,14 +125,9 @@ module Rollbar
             highest_lowest_target_level = lowest_target_level
           end
           level_value_to_additional_conditions_set.merge!(rule.build_additional_conditions_set_for_subsequent_rules) do |_, v1, v2|
+            # @type [Array<Array<Condition::Base>>]
             additional_conditions_set = v1.product(v2).map(&:flatten)
-
-            additional_conditions_set.reject! do |conditions|
-              conditions.each.with_index.any? do |condition, i|
-                conditions[i + 1 ..].any? { |other| other == condition.build_complement_condition }
-              end
-            end
-
+            additional_conditions_set.reject!(&Rule.method(:never_met?))
             additional_conditions_set
           end
         end
