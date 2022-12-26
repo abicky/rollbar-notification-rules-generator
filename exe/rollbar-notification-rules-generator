@@ -3,7 +3,7 @@ require "optparse"
 
 require "rollbar/notification"
 
-Version = "0.2.3"
+Version = "0.2.4"
 FORMATS = %w[terraform text]
 
 opts = { format: "terraform" }
