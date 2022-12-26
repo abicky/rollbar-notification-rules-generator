@@ -14,7 +14,7 @@ module Rollbar
     #  @return [Array<Hash{String => Object}>]
     class Rule
       # _@param_ `rule`
-      def initialize: (::Hash[String, Object] rule) -> void
+      def initialize: (::Hash[String, ::Array[Object]] rule) -> void
 
       # _@param_ `original`
       def initialize_dup: (Rule original) -> void

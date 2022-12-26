@@ -1,0 +1,5 @@
+# TODO: Delete this file after https://github.com/ruby/rbs/pull/1187 is merged
+class Array[unchecked out Elem] < Object
+  def zip: [T] (::Enumerator[T] arg) -> ::Array[[ Elem, T? ]]
+         | ...
+end

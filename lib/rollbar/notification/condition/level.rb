@@ -15,7 +15,10 @@ module Rollbar
         # @param lowest_target_level [Integer]
         # @return [Array<Level>]
         def self.build_eq_conditions_from(lowest_target_level)
-          SUPPORTED_VALUES[lowest_target_level..].map do |value|
+          target_level_values = SUPPORTED_VALUES[lowest_target_level..]
+          raise "lowest_target_level is out of range" if target_level_values.nil?
+
+          target_level_values.map do |value|
             new("eq", value)
           end
         end
@@ -28,10 +31,11 @@ module Rollbar
           super
           @type = "level"
 
-          @level = SUPPORTED_VALUES.index(value)
-          unless @level
+          level = SUPPORTED_VALUES.index(value)
+          unless level
             raise ArgumentError, "Unsupported value: #{value}"
           end
+          @level = level
         end
 
         # @return [String]
@@ -41,7 +45,8 @@ module Rollbar
 
         # @return [Array<String>]
         def target_level_values
-          @operation == "eq" ? [@value] : SUPPORTED_VALUES[@level..]
+          # NOTE: `SUPPORTED_VALUES[@level..]` cannot be nil but `|| []` is required to suppress the warning "Incompatible nilability"
+          @operation == "eq" ? [@value] : SUPPORTED_VALUES[@level..] || []
         end
       end
     end

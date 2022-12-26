@@ -15,7 +15,7 @@ module Rollbar
     class Rule
       attr_reader :conditions, :configs
 
-      # @param rule [Hash{String => Object}]
+      # @param rule [Hash{String => Array<Object>}]
       def initialize(rule)
         @conditions = rule.fetch("conditions").map do |condition|
           case condition.fetch("type")
@@ -65,7 +65,8 @@ module Rollbar
 
       def never_met?
         @conditions.each.with_index.any? do |condition, i|
-          @conditions[i + 1 ..].any? do |other|
+          # NOTE: `@conditions[i + 1 ..]` cannot be nil but `|| []` is required to suppress the warning "'any?' may produce 'NoMethodError'"
+          (@conditions[i + 1 ..] || []).any? do |other|
             next false unless condition.respond_to?(:build_complement_condition)
             other == condition.build_complement_condition
           end
